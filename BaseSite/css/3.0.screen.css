@@ -1,0 +1,20 @@
+﻿/*
+    This style sheet contains all layout for the screen, print, projection and tv media types.
+    <link href="css/screen.css" rel="stylesheet" type="text/css" media="screen, print, projection, tv" />
+*/
+
+/* Layout */
+#nav-accessibility      { position: absolute; top: 0px; left: 0px; }
+#nav-accessibility p    { position:absolute; top: auto; left: -10000px; width: 1px; height: 1px; }
+#nav-accessibility ul   { list-style: none; margin:0; padding: 0; }
+#nav-accessibility a    { position:absolute; display: block; top: auto; left: -10000px; width: 1px; height: 1px; }
+#nav-accessibility a:active, 
+#nav-accessibility a:focus { z-index: 1000; top: 0; left: 0px; width: 350px; height: 20px; background-color: white; border: 1px dotted #ccc; padding: 5px; }
+
+
+#design { position: absolute; top: 0; left: 50%; margin-left: -485px; z-index: 2000; display: none; }
+#header { border: solid 1px red; padding: 20px; }
+#nav-primary { border: solid 1px red; padding: 20px; }
+#content { border: solid 1px red; padding: 20px; }
+#footer { border: solid 1px red; padding: 20px; }
+

@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "XHTML1-s.dtd" >
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>liquid layout</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding:0;
+		}
+		* {
+			margin: 0;
+			padding:0;
+			position: relative;
+		}
+		.cc			{ position: relative; zoom:1; }
+			.cc:after	{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+		.cols { 
+			background-color: yellow;
+			margin: 5px;
+			width: 210px;
+		}
+			.cols-cont {
+				margin: 0 -5px;
+				width: 220px;
+			}
+				.col {
+					background: red;
+					display: inline;
+					float: left;
+					margin: 5px;
+					width: 100px;		
+				}
+			
+		.cols3 { width: 320px; }
+			.cols3 .cols-cont { width: 330px; }
+			
+	</style>
+</head>
+<body>
+
+<h1>Columns and containers with gutters</h1>
+<p><a href="http://the-taylors.org">Return to Dave Taylor</a></p>
+
+<div class="cols cc">
+	<div class="cols-cont cc">
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div style="clear:both;">&nbsp;</div>
+
+<div class="cols cc cols3">
+	<div class="cols-cont cc">
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="col cc">
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

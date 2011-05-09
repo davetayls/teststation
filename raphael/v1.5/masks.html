@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://raphaeljs.com/reflection.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Raphaël · Reflection</title>
+        <script src="raphael-min.js"></script>
+        <style type="text/css" media="screen">
+            body {
+                background: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="holder">
+            <img id="photo" src="../bd.jpg" width="320" height="240" alt="Test" style="display: none; ">
+        </div>
+		<script type="text/javascript">
+			window.onload = function () {
+			    var img = document.getElementById("photo");
+			    img.style.display = "none";
+			    var r = Raphael("holder", 600, 148);
+				
+				r.path("M4.5,24.875L175.5,17.5L175.5,136.75L4.5,132.125Z")
+				.attr({
+				    fill: "url(bd.jpg)",
+				    "stroke-width": 0
+				});
+				r.path("M188.5,16.25L361.5,10.5L361.5,141.5L188.5,137.5Z")
+				.attr({
+				    fill: "url(bd.jpg)",
+				    "stroke-width": 0
+				});
+				r.path("M375.5,9.75L547.5,3.5L547.5,146.25L375.5,142.5Z")
+				.attr({
+				    fill: "url(bd.jpg)",
+				    "stroke-width": 0
+				});
+			};			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "XHTML1-s.dtd" >
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>form validation</title>
+	<script type="text/javascript" src="../js/lib/jquery-1.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/lib/Class.js"></script>
+	<script type="text/javascript">
+		var app = {};
+		app.ui = {};
+	</script>
+	<script type="text/javascript" src="../lib/app/app_validation_validator.js"></script>
+	<script type="text/javascript" src="../lib/app/app_ui_validator.js"></script>
+	<script type="text/javascript" src="../lib/app/app_ui_validationPresenter.js"></script>
+	
+	<style type="text/css">
+	</style>
+	<script type="text/javascript">	
+
+		(function($){
+			
+			var rules = new app.ui.validatorRuleSet(
+				[
+					new app.ui.validatorRule('textboxpass',  new app.validation.regExValidator('error with validation',/hello/)),
+					new app.ui.validatorRule('textboxerror', new app.validation.regExValidator('error with validation',/hello/))
+				],
+				['#action'],
+				formValidationPresenter
+			);
+						
+		})(jQuery);
+		
+	
+	</script>
+</head>
+<body>
+
+<h1>Form Validation</h1>
+<p><a href="http://the-taylors.org">Return to Dave Taylor</a></p>
+
+	<form action="POST">
+		<div id="errors" style="display:none">
+			<h3>Error Header</h3>
+		</div>
+		<div>
+			<p>These text boxes require hello as values to pass validation</p>
+			<label>
+				pass: <input id="textboxpass" type="text" value="hello" />
+			</label>
+			<label>
+				error: <input id="textboxerror" type="text" value="blah" />
+			</label>
+			<input id="action" type="submit" value="Validate" />
+		</div>
+	</form>
+
+
+</body>
+</html>
