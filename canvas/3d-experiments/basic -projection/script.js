@@ -1,10 +1,11 @@
 var x = document.getElementById('canvas').getContext('2d'),
     centre = [160,100],
+    dirX = 2,
     sqpoints = [
-        [0,0],
-        [20,0],
-        [20,14],
-        [0,14]
+        [-10,-10],
+        [10,-10],
+        [10,10],
+        [-10,10]
     ];
 
 var drawPath = function(points) {
@@ -49,7 +50,13 @@ function draw () {
         drawPath(projectPoints(sqpoints, i));
     };
 
-    
+    if (sqpoints[0][0] < -40 || sqpoints[0][0] > 40) {
+        dirX = -dirX;
+    };
+    for (var ii = 0; ii < sqpoints.length; ii++) {
+        var p = sqpoints[ii];
+        p[0] += dirX;
+    };
     
     setTimeout(draw, 10);
 
