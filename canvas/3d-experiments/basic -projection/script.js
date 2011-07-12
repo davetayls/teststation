@@ -48,15 +48,15 @@ function draw () {
     // drawPath(sqpoints);
     for (var i = 0; i < 256; i+=32) {
         drawPath(projectPoints(sqpoints, i));
-    };
+    }
 
     if (sqpoints[0][0] < -40 || sqpoints[0][0] > 40) {
         dirX = -dirX;
-    };
+    }
     for (var ii = 0; ii < sqpoints.length; ii++) {
         var p = sqpoints[ii];
         p[0] += dirX;
-    };
+    }
     
     setTimeout(draw, 10);
 
