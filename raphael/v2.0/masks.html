@@ -3,7 +3,7 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
         <title>Raphaël · Reflection</title>
-        <script src="raphael-min.js"></script>
+        <script src="raphael-2.0.js"></script>
         <style type="text/css" media="screen">
             body {
                 background: #fff;
@@ -24,23 +24,23 @@
 			    img.style.display = "none";
 			    var r = Raphael("holder", 600, 600);
 				
-				r.path("M4.5,24.875L175.5,17.5L175.5,136.75L4.5,132.125Z")
+				r.path("M4,25L175,17L175,137L4,132Z")
 				.attr({
 				    fill: "url(mars.jpg)",
 				    "stroke-width": 0
 				});
-				r.path("M188.5,16.25L361.5,10.5L361.5,141.5L188.5,137.5Z")
+				r.path("M188,16L361,10L361,141L188,137Z")
 				.attr({
 				    fill: "url(mars.jpg)",
 				    "stroke-width": 0
 				});
-				r.path("M375.5,9.75L547.5,3.5L547.5,146.25L375.5,142.5Z")
+				r.path("M375,10L547,3L547,146L375,142Z")
 				.attr({
 				    fill: "url(mars.jpg)",
 				    "stroke-width": 0
 				});
 
-                r.image("grid.jpg", 50, 200, 320, 240);
+                r.image("mars.jpg", 50, 200, 175, 145);
 			};			
 		</script>
         <!-- Include the VML behavior -->
