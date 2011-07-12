@@ -44,14 +44,16 @@
                     p.render();
                     p.frame();
                 }
-                particles.push(new Particle(cx, {
-                    x: canvasWidth / 2,
-                    y: canvasHeight / 2,
-                    xVelocity: (Math.random() * 10) -5, 
-                    yVelocity: (Math.random() * 10) -5,
-                    drag: 0.9 + (Math.random() * 0.1),
-                    grow: 1 + (Math.random() * 0.01)
-                }));
+                if (particles.length < 5000) {
+                    particles.push(new Particle(cx, {
+                        x: canvasWidth / 2,
+                        y: canvasHeight / 2,
+                        xVelocity: (Math.random() * 10) -5, 
+                        yVelocity: (Math.random() * 10) -5,
+                        drag: 0.9 + (Math.random() * 0.1),
+                        grow: 1 + (Math.random() * 0.01)
+                    }));
+                }
 			}
 			function animate() {
 				requestAnimationFrame( animate );
