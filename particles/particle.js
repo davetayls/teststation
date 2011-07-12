@@ -11,6 +11,9 @@ function Particle(cx, properties){
     // drag
     this.drag = properties.drag || 1; // 1 === no drag
 
+    // size
+    this.size = properties.size || 2;
+    this.grow = properties.grow || 1; // 1 === no grow
 }
 Particle.prototype = {
     frame: function(){
@@ -22,10 +25,17 @@ Particle.prototype = {
         this.xVelocity = this.xVelocity * this.drag;
         this.yVelocity = this.yVelocity * this.drag;
 
+        // size
+        this.size = this.size * this.grow;
     },
     render: function(){
         this.cx.fillStyle = '#000000';
-        this.cx.fillRect(this.x,this.y,2,2);
+        this.cx.fillRect(
+            this.x - (this.size / 2),
+            this.y - (this.size / 2),
+            this.size,
+            this.size
+        );
     }
 };
 
