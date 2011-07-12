@@ -44,7 +44,7 @@
                     p.render();
                     p.frame();
                 }
-                if (particles.length < 5000) {
+                if (particles.length < 1000) {
                     particles.push(new Particle(cx, {
                         x: canvasWidth / 2,
                         y: canvasHeight / 2,

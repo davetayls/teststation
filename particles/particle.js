@@ -14,6 +14,7 @@ function Particle(cx, properties){
     // size
     this.size = properties.size || 2;
     this.grow = properties.grow || 1; // 1 === no grow
+    this.maxSize = properties.maxSize || 100;
 }
 Particle.prototype = {
     frame: function(){
@@ -26,7 +27,7 @@ Particle.prototype = {
         this.yVelocity = this.yVelocity * this.drag;
 
         // size
-        this.size = this.size * this.grow;
+        this.size = this.size > this.maxSize ? this.size : this.size * this.grow;
     },
     render: function(){
         this.cx.fillStyle = '#000000';
