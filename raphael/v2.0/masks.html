@@ -3,7 +3,8 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
         <title>Raphaël · Reflection</title>
-        <script src="raphael-2.0.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+        <script src="raphael.js"></script>
         <style type="text/css" media="screen">
             body {
                 background: #fff;
@@ -39,8 +40,20 @@
 				    fill: "url(mars.jpg)",
 				    "stroke-width": 0
 				});
+				r.path("M10,500L100,500L100,600L10,600Z")
+				.attr({
+				    fill: "url(mars.jpg)"
+				});
 
                 r.image("mars.jpg", 50, 200, 175, 145);
+
+                setTimeout(function(){
+                    var $holder = $('#holder'),
+                        $text   = $('<textarea />')
+                            .width(300)
+                            .height(300)
+                            .val($holder.html()).appendTo('body');
+                }, 1000);
 			};			
 		</script>
         <!-- Include the VML behavior -->
@@ -68,6 +81,8 @@
             </rvml:shape>
         </rvml:group>
 
-        
+
+
+
 	</body>
 </html>

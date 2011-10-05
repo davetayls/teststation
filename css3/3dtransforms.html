@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>3d transforms</title>
+        <style type="text/css">
+            .itm {
+            	float: left;
+            	background: #ddd;
+            	width: 500px;
+                height:300px;
+                margin: 10px;
+                position: relative;
+                overflow: hidden;
+            }
+                .itm div {
+                    width: 400px;
+                    height: 200px;
+                    background: #008;
+                	color: #fff;
+                	padding: 10px;
+                	position: absolute;
+                    top: 20px;
+                    left: 50px;
+                }
+                .itm .itm-2 {
+                	-webkit-transform-origin: 0 0 10px;
+                	top: 50px;
+                	left: 150px;
+                	height: 50px;
+                	width: 50px;
+                }
+            
+            #itm1 {
+            	-webkit-perspective: 800;
+            }
+                #itm1 div {
+                	-webkit-transform: rotate3d(0,10,0,45deg);
+                }
+            #itm2 {
+            	-webkit-perspective: 8000;
+            }
+                #itm2 div {
+                	-webkit-transform: rotate3d(0,10,0,45deg);
+                }
+            #itm3 {
+            	-webkit-perspective: 800;
+            }
+            #itm3>div {
+                	-webkit-transform: rotate3d(0,10,0,45deg);
+                }
+        </style>
+    </head>
+    <body>
+        <h1>3d transforms</h1>
+        <div id="itm1" class="itm">
+            <div>
+                <h2>3d rotate y axis</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam laoreet mattis quam, hendrerit tristique metus blandit nec. Nulla erat arcu, iaculis in dapibus id, sollicitudin eget nibh.</p>
+                <p>Quisque gravida mi velit, sed adipiscing est. Donec eget nisl vitae mauris eleifend cursus. Suspendisse eget elit ac lectus feugiat placerat. Suspendisse</p>
+            </div>
+        </div>
+        <div id="itm2" class="itm">
+            <div>
+                <h2>3d rotate y axis larger perspective</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam laoreet mattis quam, hendrerit tristique metus blandit nec. Nulla erat arcu, iaculis in dapibus id, sollicitudin eget nibh.</p>
+                <p>Quisque gravida mi velit, sed adipiscing est. Donec eget nisl vitae mauris eleifend cursus. Suspendisse eget elit ac lectus feugiat placerat. Suspendisse</p>
+            </div>
+        </div>
+        <div id="itm3" class="itm">
+            <div>
+                <h2>3d rotate y axis larger perspective</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam laoreet mattis quam, hendrerit tristique metus blandit nec. Nulla erat arcu, iaculis in dapibus id, sollicitudin eget nibh.</p>
+                <p>Quisque gravida mi velit, sed adipiscing est. Donec eget nisl vitae mauris eleifend cursus. Suspendisse eget elit ac lectus feugiat placerat. Suspendisse</p>
+                <div class="itm-2">
+                    Lorem ipsum dolor sit amet
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
