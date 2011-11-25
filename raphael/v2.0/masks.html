@@ -59,6 +59,49 @@
         <!-- Include the VML behavior -->
         <style>v\: * { behavior: url(#default#VML);display:inline-block }</style>
 
+        <h2>SVG in markup</h2>
+        
+<svg style="overflow-x: hidden; overflow-y: hidden; position: relative; " height="600" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg">
+<desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.0.0</desc>
+<defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">
+<pattern style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " id="6F48A601-04B1-4B5D-9DBF-F57CEDAFFB94" x="0" y="0" patternUnits="userSpaceOnUse" height="145" width="175" patternTransform="matrix(1,0,0,1,0,0) translate(4,17)"><image style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " x="0" y="0" href="mars.jpg" width="175" height="145"></image></pattern>
+<pattern style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " id="E33BB8D1-62FA-405E-A30F-84BFA7AF7209" x="0" y="0" patternUnits="userSpaceOnUse" height="145" width="175" patternTransform="matrix(1,0,0,1,0,0) translate(188,10)"><image style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " x="0" y="0" href="mars.jpg" width="175" height="145"></image></pattern>
+<pattern style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " id="4A81EE26-1D75-48F1-A120-387E563BF942" x="0" y="0" patternUnits="userSpaceOnUse" height="145" width="175" patternTransform="matrix(1,0,0,1,0,0) translate(375,3)"><image style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " x="0" y="0" href="mars.jpg" width="175" height="145"></image></pattern>
+</defs>
+<path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill: url(#6F48A601-04B1-4B5D-9DBF-F57CEDAFFB94); " 
+fill="url(#6F48A601-04B1-4B5D-9DBF-F57CEDAFFB94)" 
+stroke="#000000" 
+d="M4,25L175,17L175,137L4,132Z" 
+stroke-width="0"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill: url(#E33BB8D1-62FA-405E-A30F-84BFA7AF7209); " fill="url(#E33BB8D1-62FA-405E-A30F-84BFA7AF7209)" stroke="#000000" d="M188,16L361,10L361,141L188,137Z" stroke-width="0"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill: url(#4A81EE26-1D75-48F1-A120-387E563BF942); " fill="url(#4A81EE26-1D75-48F1-A120-387E563BF942)" stroke="#000000" d="M375,10L547,3L547,146L375,142Z" stroke-width="0"></path><image style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " x="50" y="200" width="175" height="145" preserveAspectRatio="none" href="mars.jpg"></image></svg>
+            <img id="photo" src="../grid.jpg" width="320" height="240" alt="Test" style="display: none; ">
+        
+
+        <svg height="600" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" style="overflow-x: hidden; overflow-y: hidden; position: relative; ">
+            <desc>Created with Raphaël 2.0.0</desc>
+            <defs>
+                <pattern id="a" x="0" y="0" patternUnits="userSpaceOnUse" height="145" width="175" 
+                    patternTransform="matrix(1,0,0,1,0,0) translate(4,17)">
+                    <image x="0" y="0" href="mars.jpg" width="175" height="145"></image>
+                </pattern>
+                <pattern id="b" x="0" y="0" 
+                    patternUnits="userSpaceOnUse" height="145" width="175" 
+                    patternTransform="matrix(1,0,0,1,0,0) translate(188,10)">
+                    <image x="0" y="0" href="mars.jpg" width="175" height="145"></image>
+                </pattern>
+                <pattern id="c" x="0" y="0" 
+                    patternUnits="userSpaceOnUse" height="145" width="175" 
+                    patternTransform="matrix(1,0,0,1,0,0) translate(375,3)">
+                    <image x="0" y="0" href="./mars.jpg" width="175" height="145"></image>
+                </pattern>
+            </defs>
+            <path fill="url(#a)" stroke="#000000" d="M4,25L175,17L175,137L4,132Z" style="fill: #a; " stroke-width="0"></path>
+            <path fill="url(#b)" stroke="#000000" d="M188,16L361,10L361,141L188,137Z" style="fill: #b; " stroke-width="0"></path>
+            <path fill="url(#c)" stroke="#000000" d="M375,10L547,3L547,146L375,142Z" style="fill: #c; " stroke-width="0"></path>
+            <image x="50" y="200" width="175" height="145" preserveAspectRatio="none" href="mars.jpg"></image>
+        </svg> 
+
+        
+
         <!-- Declare the VML namespace -->
         <xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>
 
