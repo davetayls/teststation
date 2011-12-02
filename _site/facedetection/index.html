@@ -114,15 +114,13 @@
                 }
             }
     });
-    var checkImage = function() {
-        window.webcam.capture();
-
-        setTimeout(function(){ checkImage(); }, 500);
-    };
-    setTimeout(function(){
-        checkImage();
-    }, 1000);
  })();
+function getCapture(){
+    setTimeout(function(){
+        window.webcam.capture();
+    }, 1000);
+}
+getCapture();
 
 function detect() {
 	var image = new Image();
@@ -149,36 +147,33 @@ function detect() {
     for (var i = 0; i < comp.length; i++){
         ctx.strokeRect(comp[i].x, comp[i].y, comp[i].width, comp[i].height);
     }
+    getCapture();
 }
 
 function detectAsync() {
-	var image = new Image();
-	var url = document.getElementById("image").value;
-	window.location.hash = "#" + encodeURIComponent(url);
-	image.src = "loader.php?src=" + encodeURIComponent((url.substr(0, 7).toLowerCase() == "http://") ? url : "http://" + url);
-	document.getElementById("elapsed_time").innerHTML = "Loading image from web ...";
-	var canvas = document.getElementById("output");
+	document.getElementById("elapsed_time").innerHTML = "Loading image ...";
+	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
-	image.onload = function () {
-		/* call main detect_objects function */
-		var elapsed_time = (new Date()).getTime();
-		document.getElementById("elapsed_time").innerHTML = "Detecting ...";
-		ccv.detect_objects({ "canvas" : ccv.grayscale(ccv.pre(image)),
-							 "cascade" : cascade,
-							 "interval" : 5,
-							 "min_neighbors" : 1,
-							 "async" : true,
-							 "worker" : 1 })(function (comp) {
-			document.getElementById("elapsed_time").innerHTML = "Elapsed time : " + ((new Date()).getTime() - elapsed_time).toString() + "ms";
-			resizeCanvas(image, canvas);
-			ctx.drawImage(image, 0, 0);
-			ctx.lineWidth = 3;
-			ctx.strokeStyle = "#f00";
-			/* draw detected area */
-			for (var i = 0; i < comp.length; i++)
-				ctx.strokeRect(comp[i].x, comp[i].y, comp[i].width, comp[i].height);
-		});
-	}
+
+    var elapsed_time = (new Date()).getTime();
+    document.getElementById("elapsed_time").innerHTML = "Detecting ...";
+    ccv.detect_objects({ 
+        "canvas" : canvas,
+        "cascade" : cascade,
+        "interval" : 5,
+        "min_neighbors" : 1,
+        "async" : true,
+        "worker" : 1 
+    })(function (comp) {
+        document.getElementById("elapsed_time").innerHTML = "Elapsed time : " + ((new Date()).getTime() - elapsed_time).toString() + "ms";
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#f00";
+        /* draw detected area */
+        for (var i = 0; i < comp.length; i++){
+            ctx.strokeRect(comp[i].x, comp[i].y, comp[i].width, comp[i].height);
+        }
+        getCapture();
+    });
 }
 
 </script>
@@ -216,16 +211,5 @@ function detectAsync() {
 			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			  })();
 			</script>
-			<script type="text/javascript">
-				var disqus_shortname = 'davetayls';
-				(function () {
-					var s = document.createElement('script'); s.async = true;
-					s.src = 'http://disqus.com/forums/davetayls/count.js';
-					(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-				}());
-			</script>
-            <!-- sharing -->
-            <script type="text/javascript" src="http://platform.linkedin.com/in.js"></script>
-            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=davetayls"></script>
         </body>
     </html>
