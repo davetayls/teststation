@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "XHTML1-s.dtd" >
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>liquid layout</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding:0;
+		}
+		* {
+			margin: 0;
+			padding:0;
+			position: relative;
+		}
+		.cc			{ position: relative; zoom:1; }
+			.cc:after	{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+		.lay-c2 {}
+			.lay-c2-left {
+				background: red;
+				float: left;
+				width: 49%;
+			}
+			.lay-c2-right {
+				background: red;
+				float: right;
+				width: 49%;
+			}
+			
+		.lay-c3fix { background:yellow; margin: 10px 0; }
+			.lay-c3fix-left {
+				background: red;
+				float: left;
+				height: 100%;
+				width: 50%;
+			}
+				.lay-c3fix-left .toolbar,
+				.lay-c3fix-left .content {
+					margin-right: 100px;
+				}
+			.lay-c3fix-c {
+				background: green;
+				float: left;
+				height: 100%;
+				margin: 0 0 0 -91px;
+				width: 180px;
+				z-index: 2;				
+			}
+			.lay-c3fix-right {
+				background: red;
+				float: right;
+				height: 100%;
+				margin-left: -91px;
+				width: 50%;
+			}
+				.lay-c3fix-right .toolbar,
+				.lay-c3fix-right .content {
+					margin-left: 100px;
+				}
+
+			.toolbar {
+				border: solid 1px red;
+				position: relative;				
+			}
+				.toolbar span {
+					border: solid 1px red;
+					display: block;
+					margin-right: 30px;				
+				}
+					.toolbar span input {
+						width: 99%;
+					}
+				.toolbar input[type=submit] {
+					position: absolute;
+					top: 0;
+					right: 0;
+				}
+			
+	</style>
+</head>
+<body>
+
+	<div class="lay-c2 cc">
+		<div class="lay-c2-left cc">
+			<div class="toolbar">
+				<span><input type="text" /></span>
+				<input type="submit" value="go" />				
+			</div>
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+		<div class="lay-c2-right cc">
+			<div class="toolbar">
+				<span><input type="text" /></span>
+				<input type="submit" value="go" />				
+			</div>
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="lay-c3fix cc">
+		<div class="lay-c3fix-left cc">
+			<div class="toolbar">
+				<span><input type="text" /></span>
+				<input type="submit" value="go" />				
+			</div>
+			<div class="content">
+				<p>tedst</p>
+			</div>			
+		</div>
+		<div class="lay-c3fix-c cc">
+			<p>fixed centre</p>
+		</div>
+		<div class="lay-c3fix-right cc">
+			<div class="toolbar">
+				<span><input type="text" /></span>
+				<input type="submit" value="go" />				
+			</div>
+			<div class="content">
+				<p>tedst</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="lay-c3fix cc">
+		<div class="lay-c3fix-left cc">
+			<div class="content">
+				<p>left</p>
+			</div>			
+		</div>
+		<div class="lay-c3fix-c cc">
+			<p>=</p>
+		</div>
+		<div class="lay-c3fix-right cc">
+			<div class="content">
+				<p>right</p>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

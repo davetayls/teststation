@@ -1,0 +1,146 @@
+---
+title: face recognition through webcam and canvas
+layout: master
+description: face recognition through webcam and canvas
+---
+<script src="webcam/jquery.webcam.js"></script>
+<script src="ccv/ccv.js" type="text/javascript"></script>
+<script src="ccv/face.js" type="text/javascript"></script>
+<div id="camera"></div>
+<canvas id="canvas" width="320" height="240"></canvas>
+<div id="status"></div>
+<div id="elapsed_time"></div>
+<script type="text/javascript">
+
+(function(){
+    var ctx = null,
+        pos = 0,
+        image,
+        canvas = document.getElementById("canvas");
+
+    if (canvas.getContext) {
+        ctx = document.getElementById("canvas").getContext("2d");
+        ctx.clearRect(0, 0, 320, 240);
+
+        var img = new Image();
+        img.src = "/images/sprites.png";
+        img.onload = function() {
+            ctx.drawImage(img, 129, 89);
+        };
+        image = ctx.getImageData(0, 0, 320, 240);
+    }
+
+    $("#camera").webcam({
+            width: 320,
+            height: 240,
+            mode: "callback",
+            swffile: "webcam/jscam_canvas_only.swf",
+            onTick: function(remain) {
+                if (0 == remain) {
+                    jQuery("#status").text("Cheese!");
+                } else {
+                    jQuery("#status").text(remain + " seconds remaining...");
+                }
+            },
+            onSave: function(data) {
+
+                var col = data.split(";");
+                var img = image;
+
+                for(var i = 0; i < 320; i++) {
+                    var tmp = parseInt(col[i]);
+                    img.data[pos + 0] = (tmp >> 16) & 0xff;
+                    img.data[pos + 1] = (tmp >> 8) & 0xff;
+                    img.data[pos + 2] = tmp & 0xff;
+                    img.data[pos + 3] = 0xff;
+                    pos+= 4;
+                }
+
+                if (pos >= 0x4B000) {
+                    ctx.putImageData(img, 0, 0);
+                    pos = 0;
+                    window.detect();
+                }
+            },
+            onCapture: function () {
+                webcam.save();
+            },
+            debug: function (type, string) {
+                jQuery("#status").html(type + ": " + string);
+            },
+            onLoad: function () {
+
+                var cams = webcam.getCameraList();
+                for(var i in cams) {
+                    jQuery("#cams").append("<li>" + cams[i] + "</li>");
+                }
+            }
+    });
+    var checkImage = function() {
+        window.webcam.capture();
+
+        setTimeout(function(){ checkImage(); }, 500);
+    };
+    setTimeout(function(){
+        checkImage();
+    }, 1000);
+ })();
+
+function detect() {
+	var image = new Image();
+	// var url = document.getElementById("image").value;
+	// window.location.hash = "#" + encodeURIComponent(url);
+	// image.src = "loader.php?src=" + encodeURIComponent((url.substr(0, 7).toLowerCase() == "http://") ? url : "http://" + url);
+	document.getElementById("elapsed_time").innerHTML = "Loading image from web ...";
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+    document.getElementById("elapsed_time").innerHTML = "Detecting ...";
+    /* call main detect_objects function */
+    var elapsed_time = (new Date()).getTime();
+    var comp = ccv.detect_objects({ "canvas" : canvas,
+                                    "cascade" : cascade,
+                                    "interval" : 5,
+                                    "min_neighbors" : 1 });
+
+    document.getElementById("elapsed_time").innerHTML = "Elapsed time : " + ((new Date()).getTime() - elapsed_time).toString() + "ms";
+    // resizeCanvas(image, canvas);
+    // ctx.drawImage(image, 0, 0);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#f00";
+    /* draw detected area */
+    for (var i = 0; i < comp.length; i++){
+        ctx.strokeRect(comp[i].x, comp[i].y, comp[i].width, comp[i].height);
+    }
+}
+
+function detectAsync() {
+	var image = new Image();
+	var url = document.getElementById("image").value;
+	window.location.hash = "#" + encodeURIComponent(url);
+	image.src = "loader.php?src=" + encodeURIComponent((url.substr(0, 7).toLowerCase() == "http://") ? url : "http://" + url);
+	document.getElementById("elapsed_time").innerHTML = "Loading image from web ...";
+	var canvas = document.getElementById("output");
+	var ctx = canvas.getContext("2d");
+	image.onload = function () {
+		/* call main detect_objects function */
+		var elapsed_time = (new Date()).getTime();
+		document.getElementById("elapsed_time").innerHTML = "Detecting ...";
+		ccv.detect_objects({ "canvas" : ccv.grayscale(ccv.pre(image)),
+							 "cascade" : cascade,
+							 "interval" : 5,
+							 "min_neighbors" : 1,
+							 "async" : true,
+							 "worker" : 1 })(function (comp) {
+			document.getElementById("elapsed_time").innerHTML = "Elapsed time : " + ((new Date()).getTime() - elapsed_time).toString() + "ms";
+			resizeCanvas(image, canvas);
+			ctx.drawImage(image, 0, 0);
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = "#f00";
+			/* draw detected area */
+			for (var i = 0; i < comp.length; i++)
+				ctx.strokeRect(comp[i].x, comp[i].y, comp[i].width, comp[i].height);
+		});
+	}
+}
+
+</script>

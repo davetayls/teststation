@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://raphaeljs.com/reflection.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Raphaël · Reflection</title>
+        <script src="raphael-2.0.js"></script>
+        <style type="text/css" media="screen">
+            body {
+                background: #fff;
+            }
+            #holder path {
+                stroke-width: 0 !important;
+                stroke: transparent !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="holder">
+            <img id="photo" src="../grid.jpg" width="320" height="240" alt="Test" style="display: none; ">
+        </div>
+		<script type="text/javascript">
+			window.onload = function () {
+			    var img = document.getElementById("photo");
+			    img.style.display = "none";
+			    var r = Raphael("holder", 600, 600);
+				
+				r.path("M4,25L175,17L175,137L4,132Z")
+				.attr({
+				    fill: "url(mars.jpg)",
+				    "stroke-width": 0
+				});
+				r.path("M188,16L361,10L361,141L188,137Z")
+				.attr({
+				    fill: "url(mars.jpg)",
+				    "stroke-width": 0
+				});
+				r.path("M375,10L547,3L547,146L375,142Z")
+				.attr({
+				    fill: "url(mars.jpg)",
+				    "stroke-width": 0
+				});
+
+                r.image("mars.jpg", 50, 200, 175, 145);
+			};			
+		</script>
+        <!-- Include the VML behavior -->
+        <style>v\: * { behavior: url(#default#VML);display:inline-block }</style>
+
+        <!-- Declare the VML namespace -->
+        <xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>
+
+        <v:shape
+          style="position:relative;top:1px;left:1px;width:800px;height:800px"
+          path = "m 1,1 l 1,200, 200,200, 200,1 x e">
+            <v:fill type="tile" id="myfill" src="mars.jpg" style="antialias:false;"/>
+        </v:shape>
+
+        <rvml:group style="POSITION: absolute; WIDTH: 1000px; HEIGHT: 1000px; TOP: 300px; LEFT: 500px" class=rvml coordsize = "10000,10000">
+            <rvml:shape 
+                style="WIDTH: 1000px; HEIGHT: 1000px; " 
+                class=rvml 
+                coordsize = "1000,1000" 
+                filled = "t" 
+                stroked = "f" 
+                strokecolor = "black" strokeweight = "1pt" 
+                path = " m45,249 l1755,175,1755,1368,45,1321 xe">
+            <v:fill type="tile" id="myfill" src="bg.jpg"/>
+            </rvml:shape>
+        </rvml:group>
+
+        
+	</body>
+</html>
