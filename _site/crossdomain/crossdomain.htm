@@ -1,0 +1,37 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>David Taylor - Graphic Designer, Web Developer</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1" />
+    <link rel="shortcut icon" href="http://www.the-taylors.org/favicon.ico" />
+    <link rel="bookmark icon" href="http://www.the-taylors.org/favicon.ico" />
+    <link rel="icon" type="image/ico" href="http://www.the-taylors.org/favicon.ico" />
+
+    <script type="text/javascript" src="../../js/jquery-1.3.1.min.js"></script>
+    <script type="text/javascript" src="../../js/dt.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+		try {
+			//var blog = dt.xml.loadDoc("http://a.teststation.com/xml/feed.xml");
+			document.domain = "teststation.com";
+			jQuery.get("http://teststation.com/xml/feed.xml",null,function(data,status){ alert(status);});
+			//document.domain = "a.teststation.com";
+			//alert(txt);
+			//var xsl = dt.xml.loadDoc("http://b.teststation.com/xml/rss.xsl")
+			//var render = dt.xml.xslTransformToString(blog,xsl);
+			//$("#blog").html(render);
+		}catch(ex){
+		   alert(ex);
+		}
+    });
+    </script>
+</head>
+<body>
+
+<div id="blog">
+	
+</div>
+
+</body>
+</html>

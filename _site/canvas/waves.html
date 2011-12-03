@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+
+	<style>
+      body {
+        margin: 0;
+      }
+
+      #canvas {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+      }
+    </style>
+	
+</head>
+<body>
+
+	<h1>Waves</h1>
+    <canvas id="canvas" width="400" height="400"></canvas>
+
+<script type="text/javascript">
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      var waves = ["rgba(157, 187, 210, 0.3)",
+                   "rgba(171, 216, 201, 0.3)",
+                   "rgba(135, 199, 215, 0.3)",
+                   "rgba(223, 233, 235, 0.3)"]
+
+      var i = 0;
+
+      function draw() {
+        canvas.width = canvas.width;
+        ctx.fillStyle = ("rgba(0, 0, 0, 0.4)");
+
+        var randomLeft = Math.abs(Math.pow( Math.sin(i/100), 2 )) * 200;
+        var randomRight = Math.abs(Math.pow( Math.sin((i/100) + 10), 2 )) * 200;
+        var randomLeftConstraint = Math.abs(Math.pow( Math.sin((i/100)+2), 2 )) * 200;
+        var randomRightConstraint = Math.abs(Math.pow( Math.sin((i/100)+1), 2)) * 200;
+
+        ctx.beginPath();
+        ctx.moveTo(0, randomLeft);
+
+        // ctx.lineTo(canvas.width, randomRight);
+        ctx.bezierCurveTo(canvas.width / 3, randomLeftConstraint, canvas.width / 3 * 2, randomRightConstraint, canvas.width, randomRight);
+        ctx.lineTo(canvas.width , canvas.height);
+        ctx.lineTo(0, canvas.height);
+        ctx.lineTo(0, randomLeft);
+
+        ctx.closePath();
+        ctx.fill();
+
+        i++;
+      }
+      setInterval("draw()", 20);
+    </script>
+</body>
+</html>

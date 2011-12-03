@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset=utf-8>
+<title>Test new elements</title>
+<style type="text/css">
+header, nav, article, footer {
+	padding:0;
+	margin:0;
+	display:block;
+}
+header {
+	width:100%;
+	margin: 1em 0;
+	padding: 1em 0;
+	text-align:center;
+	color:green;
+	display:block;
+}
+#wrapper {
+	width:100%;
+	float:left;
+	margin-bottom:2em;
+}
+nav {
+	float:left;
+	width:20%;
+	padding:1em;
+	border:2px solid green;
+}
+article {
+	float:left;
+	width:40%;
+	background-color:#FFFF99;
+	color: red;
+	margin-left:1em;
+	padding: 0 .5em;
+	border:1px dashed pink;
+}
+aside {
+	float:right;
+	width: 20%;
+	margin-left:1em;
+	padding-left:.9em;
+	border:1px dashed blue;
+}
+footer {
+	clear:left;
+	width:100%;
+	text-align:center;
+	font-size:smaller;
+	text-transform:uppercase;
+}
+</style>
+<!-- Dirty JavaScript hack to make IE able to apply CSS to elements that it doesn't usually know about, plus miscellaneous IE rules -->
+<!--[if IE]>
+<script type="text/javascript">
+document.createElement('header');
+document.createElement('nav');
+document.createElement('article');
+document.createElement('aside');
+document.createElement('footer');
+</script>
+<style type="text/css">
+header *, footer * {text-align:center;}
+#wrapper {width:100%;} /* otherwise, IE halves the width of <nav>*/ 
+</style>
+<![endif]-->
+</head>
+<body>
+<header>
+    <h1>Test new <abbr>HTML</abbr> 5 elements - I'm a &lt;header&gt;</h1>
+</header>
+<div id="wrapper">
+    <nav>
+        <h2>&lt;nav&gt;</h2>
+        <ul>
+            <li><a href="#">Somewhere</a></li>
+            <li><a href="#">Somewhere else</a></li>
+            <li><a href="#">Another place</a></li>
+        </ul>
+    </nav>
+    <article>
+        <h2>&lt;article&gt;</h2>
+        <p>This page tests whether it's possible to use new <abbr>HTML</abbr> 5 structural elements NOW (Jan 09). <a href="/2009/html-5-elements-test/">Background and more information</a>.</p><p>Synopsis: <strong>I hereby declare these elements ready for use!</strong></p>
+        <p>This should render properly (with intentional whitespace between this area and the &lt;aside&gt; to the right) in</p>
+        <ul>
+            <li>Opera 9.63</li>
+            <li>Chrome 1</li>
+            <li> Camino 2</li>
+            <li>Firefox 3.0.3</li>
+            <li>Safari 3.2.1</li>
+            <li>and even Internet Explorer 7, using a sneaky JavaScript trick first unleashed by <a href="http://intertwingly.net/blog/2008/01/22/Best-Standards-Support#c1201006277">Sjoerd Visscher</a>.</li>
+            <li><a href="http://blogs.msdn.com/Synergist/">Michael Scherotter</a> (an <abbr>IE</abbr> 8 evangelist) points out that it looks fine in <a href="http://s289.photobucket.com/albums/ll231/mscherotter/IE8/?action=view&amp;current=HTML5IE8Compatability.png"><abbr>IE</abbr> 8 b2 compatibility mode</a>, but unstyled in <a href="http://s289.photobucket.com/albums/ll231/mscherotter/IE8/?action=view&amp;current=HTML5IE8Standards.png"><abbr>IE</abbr> 8 b2 standards mode</a> (due to a bug which has been fixed in a new build).</li>
+            <li><strong>It works in <abbr>IE</abbr> 6!</strong> Thanks for the <a href="http://i39.tinypic.com/xgjrbk.jpg">screenshot</a>, <a href="http://www.jackosborne.co.uk/">Jack Osborne</a>, <a href="http://www.peacockcarter.co.uk/about/richard-carter/">Richard Carter</a> and <a href="http://www.catherinepope.co.uk">Catherine Pope</a>.</li>
+        </ul>
+        <p>I'm testing on a Windows Vista machine. I'd be grateful for information about  other operating systems. This domain is brucelawson.co.uk; me, I'm bruce. You can contact me at my domain. Thanks to all who've already done so.</p>
+        <p> <a href="http://www.pontbren.com/">Andrew Mabutt</a> told me that the previous version on Win <abbr>XP</abbr>, <abbr>IE</abbr> 6 causes <code>aside</code> to drop below <code>article</code>. Same happens in Firefox 3, too, and Opera 9.6 rendering was borked. Turns out, I had a typo; I closed a &lt;/cdde&gt; element rather than a &lt;/code&gt; element, which screwed up the DOM tree.</p>
+        <p> I guess what's happened is that browsers are by nature gentle and forgiving creatures which try their best with elements they &quot;know&quot; about, but they don't know how to guess with other elements. Some browsers are more html5-aware than others, and will become more and more knowledgeable, so they should be less fragile as time goes on.</p>
+        <p> Serves me right for not validating properly, though! (Opera users can validate <abbr>HTML</abbr> 5 in the browser, using the <a href="http://www.opera.com/dragonfly/">debug menu</a> that accompanies Opera Dragonfly.</p>
+        <h3>Camino problems</h3>
+        <p>Jeremy Keith writes that <a href="http://adactio.com/journal/1540">it doesn't render in Camino</a>. <a href="http://remysharp.com/">Remy Sharp</a> kindly sent a <a href="http://quicksnapper.com/remy/full/camino-html5-issue">screenshot</a> showing that Camino 1 believes HTML 5 elements like &lt;article&gt; are empty. That nice Jon Hicks sent me a screenshot of <a href="http://hicksdesign.co.uk/else/images/Test_new_elements-20090105-203329.jpg">this page in Camino 2</a>, in which it appears to render quite acceptably.</p>
+        <h3>Internet Explorer problems</h3>
+        <p>In <abbr>IE</abbr> 6 and 7, text inside <code>heading</code> and <code>footer</code> doesn't centre, unless forced to with an additional rule <code>header * {text-align:center;}</code>. You don't need to force descendents of <code>header</code> to inherit its color, though. Similarly, I don't need to force descendents of <code>footer</code> to inherit <code> text-transform</code>.</p>
+        <p>The container &lt;div&gt; needs a width of 100%, or <abbr>IE</abbr> 7 halves the width of the <code>nav</code> element.</p>
+        <p>I put those extra <abbr>IE</abbr>-only rules and the sneaky JavaScript in a <a href="http://dev.opera.com/articles/view/supporting-ie-with-conditional-comments/">conditional comment</a> and feel a bit grubby about it.</p>
+        <h3>Who and why?</h3>
+        <p>I'm <a href="/">Bruce Lawson</a>, and I work for <a href="http://www.opera.com/">Opera</a> who pay me to do this. So here's a plug: <strong><a href="http://www.opera.com/browser/next/">Opera 10 alpha</a> scores 100/100 in the Acid 3 test, and also supports Web Fonts</strong>. It's 30% faster on real web sites. <a href="http://www.opera.com/browser/next/">Try it out</a>, please do.</p>
+        <h3 id="sing">Phew! Let's sing!</h3>
+        <p>That was hard work. Let's all relax and sing along to <a href="http://uk.youtube.com/watch?v=MLaMSrLNQzo">Gita Gutawa's pop-tabulous "Bukan Permainan"</a>. I provided a rough translation of the lyrics below.</p>
+        <p lang="id">Bila nanti aku pergi
+            Jangan Lachy panggil ku kembali
+            Bila nanti aku pergi
+            Takkan ada cinta kita Lachy.</p>
+        <p>Hey baby, it's tricky coding web 2.0 apps in a markup language meant for documents, isn't it Lachy?</p>
+        <p lang="id">Kita bisa balik Lachy, pisah Lachy
+            Apa kau mengerti
+            Bahwa ini bukanlah…
+            Bukan permainan… an…</p>
+        <p>But you and me, Lachy, can get together in an open process with a knowledgeable editor and bridge that gap.</p>
+        <p lang="id">Kau tak bisa buatku menangis Lachy
+            Kau tak bisa buatku bersedih Lachy
+            Tanpa aku kau akan baik saja
+            Tanpa kamu ku akan baik saja</p>
+        <p><a href="http://www.w3.org/TR/html-design-principles/">Cowpaths</a>! It seems to me, Lachy, that extra semantics based upon what document authors actually want to do would be a start.</p>
+        <p lang="id">Kau tak bisa buatku menangis Lachy… ii…</p>
+        <p>Cowpaths! It's gotta be <a href="http://www.w3.org/2004/04/webapps-cdf-ws/papers/opera.html">backwards compatible</a>, Lachy, or I'll cry tears of pain. Boo hoo.</p>
+        <p lang="id">Bila nanti kau sendiri
+            Jangan ingat-ingat aku Lachy </p>
+        <p>We need to define how we deal with errors, don't we Lachy?</p>
+        <p lang="id">Kita bisa balik Lachy, pisah Lachy
+            Apa kau mengerti
+            Bahwa ini bukanlah…
+            Bukan permainan… Anne…</p>
+        <p>You and me, Lachy, let's use those new semantics (particularly web forms and the &lt;video&gt; element) and rock the world, baby. Don't be jealous; we need help from <a href="http://www.flickr.com/photos/24374884@N08/2616894766/">Anne</a>.</p>
+        <p><abbr title="et cetera">Etc</abbr>&hellip;</p>
+    </article>
+    <aside>
+        <h2>&lt;aside&gt;</h2>
+        <p>Riding rocking rolling cheesecakes ahoy!</p>
+    </aside>
+</div>
+<footer>
+    <p>I'm a &lt;footer&gt;!</p>
+    <p><abbr>HTML</abbr> 5 is brought to you by <a href="http://blog.whatwg.org/">Hixie's Pixies</a>. Roll on <a href="http://ishtml5readyyet.com/">2022</a>!</p>
+</footer>
+</body>
+</html>

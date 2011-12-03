@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "XHTML1-s.dtd" >
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Title should always be the first tag inside the head -->
+    <title>nav tests</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    
+    <!-- css should always be put in before any script tags -->
+    <link href="css/1.reset.css" rel="stylesheet" type="text/css" />
+    <link href="css/2.brand.css" rel="stylesheet" type="text/css" />
+    <link href="css/3.screen.css" rel="stylesheet" type="text/css" media="screen, print, projection, tv" />
+    <link href="css/print.css" rel="stylesheet" type="text/css" media="print" />
+    <!-- Conditional stylesheets for IE -->
+    <!--[if lte IE 6]>
+	    <link rel="stylesheet" type="text/css" media="all" href="css/ie6.css" />
+    <![endif]-->
+    <!--[if IE 7]>
+	    <link rel="stylesheet" type="text/css" media="all" href="css/ie7.css" />
+    <![endif]-->
+	<style type="text/css">
+	ol { 
+		display: block;
+		margin: 0;
+		padding: 0;
+		width: 200px;
+	}
+	li { 
+		display: list-item;
+		margin: 0 0 0 20px; padding: 0;
+		list-style-position: outside;
+		list-style-type: decimal;
+	}
+	li span {
+		display: block;
+		border-bottom: solid 1px red;
+		position: relative;
+		left: -20px;
+		padding-left: 20px;
+	}
+	
+	</style>
+</head>
+<body>
+        <ol>
+            <li><span>item item item item item item item item item item item item item item </span></li>
+            <li><span>item</span></li>
+            <li><span>item</span></li>
+            <li><span>item</span></li>
+            <li><span>item</span></li>
+            <li><span>item</span></li>
+            <li><span>item</span></li>
+            <li><span>item</span></li>
+            <li><span>item</span></li>
+        </ol>
+</body>
+</html>

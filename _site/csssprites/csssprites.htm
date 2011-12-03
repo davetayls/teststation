@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+    <head>
+        <title>CSS Sprites techniques tried and tested : Dave Taylor(@davetayls)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta http-equiv="Content-Script-Type" content="text/javascript" />
+        <meta http-equiv="Content-Style-Type" content="text/css" />
+        <meta http-equiv="Content-Language" content="en-GB" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <style type="text/css">
+			body        { 
+				font-family: Arial, Helvetica, "Nimbus Sans L", "Free Sans", Sans-Serif; 
+				font-size: 0.75em; 
+				color: #333; 
+			}
+			h2 { padding-top: 15px; }
+            .sprite {
+                vertical-align: top;
+                margin: 0;
+                padding-left: 15px;
+                position: relative;
+                zoom: 1; /* this tells ie to mark the element with the hasLayout property allowing us to use the % below */
+            }
+            
+            .sprite span {
+                background: url(sprites.gif) no-repeat -2px -2px;
+                display: block;
+                height: 14px;
+                left: 0;
+                margin: -5px 0;
+                padding: 0;
+                position: absolute;
+				text-align: left;
+				text-indent: -9999px;
+                top: 50%;
+                width: 16px;
+                zoom: 1;
+            }
+			#spriteLarge {
+				background: url(sprites.gif) no-repeat -60px -52px;
+				display: block;
+				float: left;
+				height: 62px;
+				margin: 0 15px 15px 0;
+				text-align:left;
+				text-indent: -9999px;
+				width: 62px;
+			}
+
+			a.button { 
+				background: url(sprites.gif) no-repeat left -125px;
+				cursor: pointer;
+				height: 32px;
+				float: left;
+				line-height: 32px;
+				outline: none;
+				margin-right: 9px;	
+				padding: 0;
+				position: relative;
+				text-decoration: none;
+			}
+				a.button:hover,
+				a.button:focus { background-position: left -175px; }
+				a.button:active { background-position: left -125px; }
+				a.button span {
+					background: url(sprites.gif) no-repeat right -125px;
+					color: white;
+					cursor: pointer;
+					float: left;
+					left: 9px;
+					line-height: 32px;
+					margin: 0 !important;
+					padding: 0 10px 0 1px;
+					position: relative;
+				}
+				a.button:hover span,
+				a.button:focus span { background-position: right -175px; color: #000; }
+				a.button:active span { background-position: right -125px; }
+			
+			
+        </style>
+    </head>
+    <body>
+        <h1>CSS Sprites techniques tried <span class="sprite">&nbsp;<span></span></span> and tested</h1>
+        <p>
+            Return to <a href="http://www.the-taylors.org">Dave Taylor</a>
+        </p>
+        <p>
+            All these sprite techniques will have been tested on the following browsers, if you notice an issue
+        </p>
+        <ul>
+            <li>
+                win: ie6, ie7, safari 4,ff 2.0, ff 3.5
+            </li>
+        </ul>
+		<h2>Sliding doors</h2>
+		<p>
+			<a href="http://the-taylors.org" class="button"><span>Here's a faux button</span></a>
+			<a href="http://the-taylors.org" class="button"><span>Here's a faux button</span></a>
+		</p>
+        <h2 style="clear:both;">Sprites inline with padding <span class="sprite">&nbsp;<span></span></span> running with the text flow</h2>
+        <p>
+        	<span id="spriteLarge">Larger sprite working with text flowing around</span>
+            Lorem ipsum dolor sit amet,<span class="sprite">&nbsp;<span></span></span>consectetur adipiscing elit. In feugiat aliquam quam, 
+			at pharetra purus mattis dictum. Fusce vel bibendum sem. Maecenas at elementum nibh. Mauris accumsan mattis turpis, vitae blandit 
+			arcu ornare ultricies. Duis lacus diam, scelerisque vitae volutpat in, laoreet vel mauris. Etiam id nibh purus. Nulla facilisi. Vivamus
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In feugiat aliquam quam, 
+			at pharetra purus mattis dictum. <span class="sprite">&nbsp;<span></span></span> Fusce vel bibendum sem. Maecenas at elementum nibh. Mauris accumsan mattis turpis, vitae blandit 
+			arcu ornare ultricies. Duis lacus diam, scelerisque vitae volutpat in, laoreet vel mauris. Etiam id nibh purus. Nulla facilisi. Vivamus
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet,consectetur adipiscing elit. In feugiat aliquam quam, 
+			at pharetra purus mattis dictum. Fusce vel bibendum sem. Maecenas at elementum nibh. Mauris accumsan mattis turpis, vitae blandit 
+			arcu ornare ultricies. Duis lacus diam, scelerisque vitae volutpat in, laoreet vel mauris. <span class="sprite">&nbsp;<span></span></span> Etiam id nibh purus. Nulla facilisi. Vivamus
+        </p>
+		<h2>These sprites are contained within the following image</h2>
+		<p>
+			<img src="sprites.gif" alt="example sprite image" />
+		</p>
+        <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            try {
+                var pageTracker = _gat._getTracker("UA-4421586-2");
+                pageTracker._trackPageview();
+            } 
+            catch (err) {
+            }
+        </script>
+		
+    </body>
+</html>
