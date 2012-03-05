@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>parent frame</title>
+    </head>
+    <body>
+        <h1>parent frame</h1>
+        <script>
+            var i = 0;
+            setInterval(function(){
+                document.write('<iframe src="http://projects.local/_Other/davetayls/teststation/crossdomain/iframes/child.html?parentmessage' + i + '" width="300" height="300"></iframe>');
+                i++;
+            }, 5000);
+        </script>
+    </body>
+</html>
