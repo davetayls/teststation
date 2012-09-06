@@ -1,0 +1,3 @@
+[submodule "raphael/svg-import"]
+	path = raphael/svg-import
+	url = git://github.com/wout/raphael-svg-import.git
