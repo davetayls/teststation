@@ -6,9 +6,22 @@
     <body>
         <h1>parent frame</h1>
         <script>
+    var body = document.getElementsByTagName('body')[0],
+        xinterfaceUrl = location.href
+            .replace('https', 'http')
+            .replace('parentiframe', 'xinterface');
+
+    function communicate(key, value){
+        var src = xinterfaceUrl +'?key='+ key +'&value=' + value,
+            iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.style.display = 'none';
+        body.appendChild(iframe);
+    }
+
             var i = 0;
             setInterval(function(){
-                document.write('<iframe src="http://projects.local/_Other/davetayls/teststation/crossdomain/iframes/child.html?parentmessage' + i + '" width="300" height="300"></iframe>');
+                communicate('LOG', i);
                 i++;
             }, 5000);
         </script>
