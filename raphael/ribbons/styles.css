@@ -1,0 +1,20 @@
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#wrapper {
+	width: 980px;
+	margin: 0 auto;
+	border: solid 1px red;
+	border-color: transparent #ccc;
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.8);
+	   -moz-box-shadow: 0 0 10px rgba(0,0,0,0.8);
+	    -ms-box-shadow: 0 0 10px rgba(0,0,0,0.8);
+	     -o-box-shadow: 0 0 10px rgba(0,0,0,0.8);
+	        box-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+	#ribbons {
+
+	}
