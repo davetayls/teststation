@@ -1,0 +1,65 @@
+<!DOCTYPE html">
+<html lang="en">
+<head>
+    <title>iOS map bug</title>
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+
+        .container {
+            position: relative;
+            z-index: 100;
+        }
+            .indent {
+                display: block;
+                text-indent:-999999px;
+            }
+            .map {
+                background-color:Gray;
+                height:213px;
+                width:220px;
+            }
+
+    </style>
+</head>
+<body onload="initialize()">
+    <h1>Google Maps text-indent bug</h1>
+    <p>This bug appears in iOS 5.1 where the size of a negative text-indent value is greater than -9999px</p>
+    <p>It causes the header content to disappear.</p>
+    <h2>CSS</h2>
+<pre><code>
+.container {
+    position: relative;
+    z-index: 100;
+}
+    .indent {
+        display: block;
+        text-indent:-999999px;
+    }
+    .map {
+        background-color:Gray;
+        height:213px;
+        width:220px;
+    }
+</code></pre>
+    <div class="container">
+        <h1>This will disappear when we load the map in iOS 5.1</h1>
+        <a class="indent" href="/search">Search</a>
+    </div>
+    <div id="map_canvas" class="map"></div>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD3MYN2-PyYg58jXp0gH701ZLf6TvbcWk&sensor=false"></script>
+    <script type="text/javascript">
+      function initialize() {
+        setTimeout(function(){
+            var mapOptions = {
+              center: new google.maps.LatLng(-34.397, 150.644),
+              zoom: 8,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+        }, 2000);
+      }
+    </script>
+</body>
+</html>
