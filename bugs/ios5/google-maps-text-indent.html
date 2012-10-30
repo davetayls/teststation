@@ -23,8 +23,16 @@
 </head>
 <body onload="initialize()">
     <h1>Google Maps text-indent bug</h1>
+    <div class="container">
+        <h1>This will disappear when we load the map in iOS 5.1</h1>
+        <a class="indent" href="/search">Search</a>
+    </div>
+    <div id="map_canvas" class="map"></div>
+
+    <h2>Explanation</h2>
     <p>This bug appears in iOS 5.1 where the size of a negative text-indent value is greater than -9999px</p>
     <p>It causes the header content to disappear.</p>
+
     <h2>CSS</h2>
 <pre><code>
 .container {
@@ -41,11 +49,6 @@
         width:220px;
     }
 </code></pre>
-    <div class="container">
-        <h1>This will disappear when we load the map in iOS 5.1</h1>
-        <a class="indent" href="/search">Search</a>
-    </div>
-    <div id="map_canvas" class="map"></div>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD3MYN2-PyYg58jXp0gH701ZLf6TvbcWk&sensor=false"></script>
     <script type="text/javascript">
