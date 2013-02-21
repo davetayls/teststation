@@ -6,21 +6,21 @@
 .spinner span:before,
 .spinner span:after {
     width: 5px;
-    height: 30px;
+    height: 20px;
     border-radius: 3px;
 }
 
 .spinner:before,
 .spinner:after,
-.spinner span,
 .spinner span:before,
 .spinner span:after {
     content: "";
     display: block;
     position: absolute;
     top: 0; left: 0;
-    background: #aaa;
-    animation: spin 3s infinite linear;
+    border-top: solid 6px #ccc;
+    border-bottom: solid 6px #ccc;
+    animation: spin 3s infinite ease-in-out;
 }
 
 .spinner {
@@ -51,12 +51,9 @@
 
 @keyframes spin {
     0% {
-        transform: rotate(0deg) rotateX(0deg);
-    }
-    50% {
-        transform: rotate(360deg) rotateX(180deg);
+        transform: rotate(0deg) rotateY(0deg);
     }
     100% {
-        transform: rotate(180deg) rotateX(360deg);
+        transform: rotate(360deg) rotateY(360deg);
     }
 }
