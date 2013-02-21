@@ -1,0 +1,10 @@
+{
+  "name": "chat.io",
+  "version": "0.0.0",
+  "description": "a simple chat program",
+  "main": "server.js",
+  "dependencies": {
+    "express": "2.5.x",
+    "socket.io": "~0.9.13"
+  }
+}

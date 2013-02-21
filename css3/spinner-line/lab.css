@@ -1,0 +1,62 @@
+
+.spinner,
+.spinner:before,
+.spinner:after,
+.spinner span,
+.spinner span:before,
+.spinner span:after {
+    width: 5px;
+    height: 30px;
+    border-radius: 3px;
+}
+
+.spinner:before,
+.spinner:after,
+.spinner span,
+.spinner span:before,
+.spinner span:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0; left: 0;
+    background: #aaa;
+    animation: spin 3s infinite linear;
+}
+
+.spinner {
+    margin: 20px 0 0 20px;
+    position: relative;
+    /*animation: spin 5s infinite linear;*/
+}
+.spinner:after {
+    opacity: 0.8;
+}
+.spinner:before {
+    opacity: 0.7;
+    animation-delay: .4s;
+}
+.spinner span {
+    opacity: 0.6;
+    animation-timin-function: ease-in-out;
+    animation-delay: .8s;
+}
+.spinner span:before {
+    opacity: 0.6;
+    animation-delay: 1s;
+}
+.spinner span:after {
+    opacity: 0.6;
+    animation-delay: 1.2s;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg) rotateX(0deg);
+    }
+    50% {
+        transform: rotate(360deg) rotateX(180deg);
+    }
+    100% {
+        transform: rotate(180deg) rotateX(360deg);
+    }
+}

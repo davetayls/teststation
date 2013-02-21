@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Cube Sphere</title>
+		<style>
+			body {
+			  perspective: 1000px; }
+
+			#scene {
+			  position: relative;
+			  transform-style: preserve-3d;
+			  width: 200px;
+			  height: 200px;
+			  margin-left: -100px;
+			  top: 20px;
+			  left: 50%; }
+
+			.world {
+			  border: dotted 1px #aaaaaa;
+			  position: absolute;
+			  top: 0;
+			  left: 0;
+			  width: 200px;
+			  height: 200px;
+			  border-radius: 50%;
+			  transform-style: preserve-3d; }
+
+			@keyframes rotate {
+			  0% {
+			    transform: rotateY(0deg) rotateX(10deg); }
+
+			  50% {
+			    transform: rotateY(180deg) rotateX(180deg); }
+
+			  100% {
+			    transform: rotateY(360deg) rotateX(10deg); } }
+
+			.box {
+			  display: block;
+			  width: 14px;
+			  height: 14px;
+			  position: absolute;
+			  top: -7px;
+			  left: 50%;
+			  margin-left: -7px;
+			  transform-style: preserve-3d; }
+			  .box i:before,
+			  .box i:after,
+			  .box i {
+			    display: block;
+			    background: #999;
+			    width: 14px;
+			    height: 14px;
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    transform-style: preserve-3d; }
+			  .box i:after,
+			  .box i:before {
+			    content: ""; }
+
+			.front {
+			  transform: rotateX(90deg) translateZ(7px); }
+			  .front:before {
+			    transform: translateZ(-14px); }
+			  .front:after {
+			    transform: rotateY(90deg) translateZ(7px) translateX(7px); }
+
+			i.back {
+			  transform: rotateY(0deg) translateZ(7px);
+			  background: #aaa; }
+			  i.back:before {
+			    transform: translateZ(-14px);
+			    background: #ccc; }
+			  i.back:after {
+			    transform: rotateY(90deg) translateZ(-7px) translateX(7px);
+			    background: #bbb; }
+
+
+		</style>
+		<script src="https://raw.github.com/LeaVerou/prefixfree/gh-pages/prefixfree.min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<h1>Cube Sphere</h1>
+		<div id="scene"></div>
+		<script id="world" type="text/x-tmpl">
+		  <span class="box">
+		    <i class="front"></i>
+		    <i class="back"></i>
+		  </span>
+		</script>
+		<script>
+			var obj = document.getElementById('scene'),
+			    tmpl = document.getElementById('world').innerText,
+			    cubes = 10,
+			    steps = Math.floor(360 / (cubes))
+			;
+
+			function addCube(i, alt){
+			  var cube = document.createElement('div');
+			  cube.className = "world";
+			  cube.innerHTML = tmpl;
+			  if (alt){
+			    cube.style.webkitTransform = 'rotateX('+ alt +'deg) rotateZ('+ i*steps +'deg)';
+			  } else {
+			    cube.style.webkitTransform = 'rotateX('+ i*steps +'deg)';
+			  }
+			  obj.appendChild(cube);
+			}
+
+			for (var i=0;i<cubes;i++){
+			  addCube(i);
+			}
+			for (var i=0;i<cubes;i++){
+			  addCube(i, 45);
+			}
+			for (var i=0;i<cubes;i++){
+			  addCube(i, 135);
+			}
+
+			document.addEventListener('mousemove', function(e){
+
+			  var distX = e.clientX / 200,
+			      distY = e.clientY / 200,
+			      degY = Math.floor(360 * distX),
+			      degX = Math.floor(360 * distY)
+			  ;
+			  obj.style.webkitTransform = 'rotateY('+ degY +'deg) rotateZ('+ degX +'deg)';
+
+			});
+		</script>
+	</body>
+</html>
