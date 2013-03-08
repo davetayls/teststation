@@ -1,0 +1,28 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "undef": true,
+  "unused": true,
+  "boss": true,
+  "eqnull": true,
+  "node": true,
+  "es5": true,
+  "strict": false,
+
+
+  "maxcomplexity": 4,
+  "maxstatements": 10,
+
+  "globals": {
+    "ParticleSystem": false,
+    "Particle": false,
+    "Point": false,
+    "Gradient": false,
+    "Color": false
+  }
+}
