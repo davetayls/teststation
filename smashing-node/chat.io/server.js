@@ -23,5 +23,11 @@ var app = express.createServer(
 var io = sio.listen(app);
 
 io.sockets.on('connection', function(socket){
-	console.log('Someone connected');
+    socket.on('join', function(name){
+        socket.nickname = name;
+        socket.broadcast.emit('announcement', name + 'joined the cat.');
+    });
+    socket.on('text', function(msg){
+        socket.broadcast.emit('text', socket.nickname, msg);
+    });
 });
