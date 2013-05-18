@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<meta charset="utf-8">
+	<head>
+	<title></title>
+	<style type="text/css">
+		body {
+			background-color: black;
+			margin:0px;
+			overflow : hidden;
+		}
+		</style>
+	</head>
+
+
+	<body>
+	<script src="../libs/creativejs.js"></script>
+	<script src="../libs/Vector2.js"></script>
+	<script src="../libs/KeyTracker.js"></script>
+	<script src="Empty.js"></script>
+	<script>
+		numParticles = 2;
+		function updateParticles() {
+
+			for (var i = 0; i < particles.length; i++) {
+				var p = particles[i];
+
+				for (var j = 0; j < attractParticles.length; j++) {
+					var ap = attractParticles[j];
+
+					var diff = p.pos.clone();
+					diff.minusEq(ap.pos);
+
+					if (p.pos.isCloseTo(ap.pos, 100)){
+						ctx.strokeStyle = p.color;
+						ctx.beginPath();
+						ctx.moveTo(p.pos.x, p.pos.y);
+						ctx.lineTo(ap.pos.x, ap.pos.y);
+						ctx.stroke();
+
+						diff.normalise(); //unit vector
+						diff.multiplyEq(2);
+						p.vel.plusEq(diff);
+
+					} else if (p.pos.isCloseTo(ap.pos, 300)){
+						ctx.strokeStyle = p.color;
+						ctx.beginPath();
+						ctx.moveTo(p.pos.x, p.pos.y);
+						ctx.lineTo(ap.pos.x, ap.pos.y);
+						ctx.stroke();
+
+						diff.normalise(); //unit vector
+						diff.multiplyEq(0.1);
+						p.vel.minusEq(diff);
+					}
+				}
+
+				p.update();
+			}
+		}
+		setInterval(function(){
+			attractParticles.push(new Particle(random(screenWidth), random(screenHeight), random(10, 20)));
+		}, 3000);
+	</script>
+
+
+	</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "browser": true,
+
+  "globals": {
+    "Vector2": true
+  }
+}
