@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+                background: black;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                font-family: sans-serif;
+                font-size: 12px;
+            }
+            #message {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                padding: 3px 5px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="message"></div>
+
+        <script src="lib/Three.js"></script>
+        <script src="lib/dat.gui.min.js"></script>
+        <script src="lib/Detector.js"></script>
+        <script src="lib/Stats.js"></script>
+        <script src="lib/TrackballControls.js"></script>
+        <script src="lib/THREEx.KeyboardState.js"></script>
+        <script src="lib/THREEx.FullScreen.js"></script>
+        <script src="lib/THREEx.WindowResize.js"></script>
+
+        <script src="setup.js"></script>
+
+        <script>
+            // custom global
+
+            // initialization
+            init();
+
+            // animation loop / game loop
+            animate();
+
+            function init(){
+                _init();
+
+                addAxes();
+                addPointLight();
+                addFloor();
+                addSkyBox();
+
+            }
+
+            function update(){
+                // delta = change in time since last call (in seconds)
+                var delta = clock.getDelta();
+
+                controls.update();
+                stats.update();
+            }
+
+        </script>
+    </body>
+</html>

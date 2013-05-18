@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+                background: black;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                font-family: sans-serif;
+                font-size: 12px;
+            }
+            #message {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                padding: 3px 5px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="message"></div>
+
+        <script src="lib/Three.js"></script>
+        <script src="lib/dat.gui.min.js"></script>
+        <script src="lib/Detector.js"></script>
+        <script src="lib/Stats.js"></script>
+        <script src="lib/TrackballControls.js"></script>
+        <script src="lib/THREEx.KeyboardState.js"></script>
+        <script src="lib/THREEx.FullScreen.js"></script>
+        <script src="lib/THREEx.WindowResize.js"></script>
+
+        <script src="setup.js"></script>
+
+        <script>
+            // custom global
+            var cube,
+                cubeFacesM = new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                    shading: THREE.FlatShading,
+                    vertexColors: THREE.VertexColors
+                }),
+                // detect faces with 3 or 4 sides
+                opt = {
+                    size: 80,
+                    faces: 1
+                },
+                gui = new dat.GUI()
+            ;
+
+            // initialization
+            init();
+
+            // animation loop / game loop
+            animate();
+
+            function init(){
+                _init();
+                addAxes();
+                addPointLight();
+                addFloor();
+                addSkyBox();
+
+                gui.add(opt, 'size', 40, 80);
+                gui.add(opt, 'faces', 1, 10);
+            }
+
+            function update(){
+                // delta = change in time since last call (in seconds)
+                var delta = clock.getDelta();
+
+                if (cube){
+                    scene.remove(cube);
+                }
+
+                var cubeFacesG = new THREE.CubeGeometry(opt.size, opt.size, opt.size, opt.faces, opt.faces, opt.faces);
+                cubeFacesG.faces.forEach(function(face, i){
+                    // determine if current face is tri or quad
+                    var numOfSides = face instanceof THREE.Face3 ? 3 : 4,
+                        color = new THREE.Color(0xff0000)
+                    ;
+                    for (var i=0; i < numOfSides; i++){
+                        color.setHex(Math.random() * 0x0000ff);
+                        face.vertexColors[i] = color;
+                    }
+                });
+                cube = new THREE.Mesh(cubeFacesG, cubeFacesM);
+                cube.position.set(-80, 40, 0);
+                scene.add(cube);
+
+                controls.update();
+                stats.update();
+            }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+                background: black;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                font-family: sans-serif;
+                font-size: 12px;
+            }
+            #message {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                padding: 3px 5px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="message"></div>
+
+        <script src="lib/Three.js"></script>
+        <script src="lib/dat.gui.min.js"></script>
+        <script src="lib/Detector.js"></script>
+        <script src="lib/Stats.js"></script>
+        <script src="lib/TrackballControls.js"></script>
+        <script src="lib/THREEx.KeyboardState.js"></script>
+        <script src="lib/THREEx.FullScreen.js"></script>
+        <script src="lib/THREEx.WindowResize.js"></script>
+
+        <script src="setup.js"></script>
+
+        <script>
+            // custom global
+            var opt = {
+                    lightX: 0,
+                    lightY: 0,
+                    lightZ: 0
+                },
+
+                light = new THREE.PointLight(0xffffff),
+                lightSph = new THREE.Mesh(
+                    new THREE.SphereGeometry(10, 10, 10),
+                    new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+                )
+            ;
+
+            // initialization
+            init();
+
+            // animation loop / game loop
+            animate();
+
+            function init(){
+                _init();
+                addAxes();
+                addPointLight();
+                addFloor();
+                addSkyBox();
+
+                gui.add(opt, 'lightX', -500, 500);
+                gui.add(opt, 'lightY', -500, 500);
+                gui.add(opt, 'lightZ', -500, 500);
+
+
+                light.position.set(opt.lightX, opt.lightY, opt.lightZ);
+                lightSph.position.set(opt.lightX, opt.lightY, opt.lightZ);
+                scene.add(light);
+                scene.add(lightSph);
+
+                // radius, segmentsWidth, segmentsHeight
+                var sphereGeom =  new THREE.SphereGeometry( 40, 32, 16 );
+
+                // shaded moon -- side away from light picks up AmbientLight's color.
+                var moonTexture = THREE.ImageUtils.loadTexture( 'images/moon.jpg' );
+                var moonMaterial = new THREE.MeshLambertMaterial( { map: moonTexture } );
+                var moon = new THREE.Mesh( sphereGeom.clone(), moonMaterial );
+                moon.position.set(-100, 100, 0);
+                scene.add( moon );
+
+                // shaded moon -- side away from light picks up AmbientLight's color.
+                var moonTexture = THREE.ImageUtils.loadTexture( 'images/moon.jpg' );
+                var moonMaterial = new THREE.MeshPhongMaterial( { map: moonTexture } );
+                var moon = new THREE.Mesh( sphereGeom.clone(), moonMaterial );
+                moon.position.set(-100, 100, 100);
+                scene.add( moon );
+            }
+
+            function update(){
+                // delta = change in time since last call (in seconds)
+                var delta = clock.getDelta();
+
+                light.position.set(opt.lightX, opt.lightY, opt.lightZ);
+                lightSph.position.set(opt.lightX, opt.lightY, opt.lightZ);
+
+                controls.update();
+                stats.update();
+            }
+
+        </script>
+    </body>
+</html>

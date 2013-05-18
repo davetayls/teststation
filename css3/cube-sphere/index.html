@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Cube Sphere</title>
+		<link rel="stylesheet" href="../cube.css">
 		<style>
 			body {
 			  perspective: 1000px; }
@@ -35,50 +36,8 @@
 			  100% {
 			    transform: rotateY(360deg) rotateX(10deg); } }
 
-			.box {
-			  display: block;
-			  width: 14px;
-			  height: 14px;
-			  position: absolute;
-			  top: -7px;
-			  left: 50%;
-			  margin-left: -7px;
-			  transform-style: preserve-3d; }
-			  .box i:before,
-			  .box i:after,
-			  .box i {
-			    display: block;
-			    background: #999;
-			    width: 14px;
-			    height: 14px;
-			    position: absolute;
-			    top: 0;
-			    left: 0;
-			    transform-style: preserve-3d; }
-			  .box i:after,
-			  .box i:before {
-			    content: ""; }
-
-			.front {
-			  transform: rotateX(90deg) translateZ(7px); }
-			  .front:before {
-			    transform: translateZ(-14px); }
-			  .front:after {
-			    transform: rotateY(90deg) translateZ(7px) translateX(7px); }
-
-			i.back {
-			  transform: rotateY(0deg) translateZ(7px);
-			  background: #aaa; }
-			  i.back:before {
-			    transform: translateZ(-14px);
-			    background: #ccc; }
-			  i.back:after {
-			    transform: rotateY(90deg) translateZ(-7px) translateX(7px);
-			    background: #bbb; }
-
-
 		</style>
-		<script src="https://raw.github.com/LeaVerou/prefixfree/gh-pages/prefixfree.min.js" type="text/javascript"></script>
+		<script src="../../utils/prefixfree.min.js" type="text/javascript"></script>
 	</head>
 	<body>
 		<h1>Cube Sphere</h1>

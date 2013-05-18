@@ -1,0 +1,32 @@
+{
+  "curly": false,
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": false,
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "undef": true,
+  "unused": false,
+  "boss": true,
+  "eqnull": false,
+
+  "browser": true,
+  "es5": true,
+
+
+  "maxparams": 3,
+  "maxdepth": 4,
+  "maxcomplexity": 4,
+  "maxstatements": 10,
+
+  "globals": {
+    "dat": true,
+    "THREE": true,
+    "THREEx": true,
+    "Detector": true,
+    "Stats": true,
+    "update": true,
+    "requestAnimationFrame": true
+  }
+}

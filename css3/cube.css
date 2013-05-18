@@ -1,0 +1,45 @@
+.box {
+  display: block;
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -7px;
+  margin-top: -7px;
+  transform-style: preserve-3d;
+}
+
+  .box i:before,
+  .box i:after,
+  .box i {
+    display: block;
+    background: #999;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-style: preserve-3d; }
+
+  .box i:after,
+  .box i:before {
+    content: ""; }
+
+.front {
+  transform: rotateX(90deg) translateZ(7px); }
+  .front:before {
+    transform: translateZ(-14px); }
+  .front:after {
+    transform: rotateY(90deg) translateZ(7px) translateX(7px); }
+
+i.back {
+  transform: rotateY(0deg) translateZ(7px);
+  background: #aaa; }
+  i.back:before {
+    transform: translateZ(-14px);
+    background: #ccc; }
+  i.back:after {
+    transform: rotateY(90deg) translateZ(-7px) translateX(7px);
+    background: #bbb; }
+

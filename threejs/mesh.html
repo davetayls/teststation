@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs test</title>
+        <style>
+            body {
+                background: black;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="Three.js"></script>
+        <script src="dat.gui.min.js"></script>
+        <script src="setup.js"></script>
+        <script>
+            function Options(){
+                this.scale = 2;
+            };
+
+            var opt = new Options(),
+                gui = new dat.GUI();
+
+            gui.add(opt, 'scale', 0, 2);
+
+            var sphereMaterial = new THREE.MeshLambertMaterial({
+                color: 0xCC0000
+            });
+
+            var sphere = new THREE.Mesh(
+                new THREE.SphereGeometry(50, 36, 36),
+                sphereMaterial
+            );
+            scene.add(sphere);
+
+            var pointLight = new THREE.PointLight(0xFFFFFF);
+            pointLight.position.x = 10;
+            pointLight.position.y = 50;
+            pointLight.position.z = 130;
+            scene.add(pointLight);
+
+            function frame(){
+
+                // set the geometry to dynamic
+                // so that it allow updates
+                sphere.geometry.dynamic = true;
+
+                sphere.scale.x = opt.scale;
+                sphere.scale.y = opt.scale;
+                sphere.scale.z = opt.scale;
+
+                // changes to the vertices
+                sphere.geometry.__dirtyVertices = true;
+
+                // changes to the normals
+                sphere.geometry.__dirtyNormals = true;
+
+                renderer.render(scene, camera);
+                requestAnimationFrame(frame);
+            };
+            frame();
+
+        </script>
+    </body>
+</html>
