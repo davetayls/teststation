@@ -4,8 +4,6 @@
 
 THREE.TrackballControls = function ( object, domElement ) {
 
-	THREE.EventDispatcher.call( this );
-
 	var _this = this;
 	var STATE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM: 4, TOUCH_PAN: 5 };
 
@@ -275,7 +273,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 		if ( lastPosition.distanceToSquared( _this.object.position ) > 0 ) {
 
-			_this.dispatchEvent( changeEvent );
+			// _this.dispatchEvent( changeEvent );
 
 			lastPosition.copy( _this.object.position );
 
@@ -296,7 +294,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 		_this.object.lookAt( _this.target );
 
-		_this.dispatchEvent( changeEvent );
+		// _this.dispatchEvent( changeEvent );
 
 		lastPosition.copy( _this.object.position );
 
@@ -430,7 +428,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 		}
 
-		_zoomStart.y += ( 1 / delta ) * 0.05;
+		_zoomStart.y += delta * 0.01;
 
 	}
 
@@ -535,3 +533,5 @@ THREE.TrackballControls = function ( object, domElement ) {
 	this.handleResize();
 
 };
+
+THREE.TrackballControls.prototype = Object.create( THREE.EventDispatcher.prototype );

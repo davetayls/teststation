@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+                background: black;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                font-family: sans-serif;
+                font-size: 12px;
+            }
+            #message {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                padding: 3px 5px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="message"></div>
+
+        <script src="lib/Three.js"></script>
+        <script src="lib/dat.gui.min.js"></script>
+        <script src="lib/Detector.js"></script>
+        <script src="lib/Stats.js"></script>
+        <script src="lib/TrackballControls.js"></script>
+        <script src="lib/THREEx.KeyboardState.js"></script>
+        <script src="lib/THREEx.FullScreen.js"></script>
+        <script src="lib/THREEx.WindowResize.js"></script>
+
+        <script src="setup.js"></script>
+
+        <script>
+            // custom global
+            var opt = {
+                number: 10,
+                gap: 30
+            }
+
+            // initialization
+            init();
+
+            // animation loop / game loop
+            animate();
+
+            function init(){
+                _init();
+
+                addAxes();
+                // addFloor();
+                // addSkyBox();
+
+                addGrid();
+                addLights();
+            }
+
+            function addGrid() {
+                var offset = opt.number * opt.gap /2;
+                // X
+                for (var X=0; X < opt.number; X++){
+                    // Y
+                    for (var Y=0; Y < opt.number; Y++){
+                        // Z
+                        for (var Z=0; Z < opt.number; Z++){
+                            var sphere = new THREE.Mesh(
+                                    new THREE.SphereGeometry(5,5,5),
+                                    new THREE.MeshLambertMaterial({ color: 0xffffff })
+                                )
+                            ;
+                            sphere.position.set(
+                                X*opt.gap -offset,
+                                Y*opt.gap -offset,
+                                Z*opt.gap -offset
+                            );
+                            scene.add(sphere);
+                        }
+                    }
+
+                }
+            }
+            function addLights() {
+                var light = new THREE.PointLight(0xffffff);
+                light.position.set(200, 0, 0);
+                scene.add(light);
+
+                var light = new THREE.PointLight(0xffffff);
+                light.position.set(0, 200, 0);
+                scene.add(light);
+
+                var light = new THREE.PointLight(0xffffff);
+                light.position.set(0, 0, 200);
+                scene.add(light);
+            }
+
+            function update(){
+                // delta = change in time since last call (in seconds)
+                var delta = clock.getDelta();
+
+                controls.update();
+                stats.update();
+            }
+
+        </script>
+    </body>
+</html>
