@@ -47,7 +47,8 @@
             // custom global
             var opt = {
                 number: 4,
-                gap: 50
+                gap: 50,
+                smoothness: 20
             };
             var projector = new THREE.Projector(),
                 dots = []
@@ -155,7 +156,7 @@
             // dot
             function Dot(x, y, z) {
                 THREE.Mesh.call(this,
-                    new THREE.SphereGeometry(5,10,10),
+                    new THREE.SphereGeometry(5,opt.smoothness,opt.smoothness),
                     new THREE.MeshLambertMaterial({ color: 0xffffff })
                 );
                 this.position.set(x, y, z);
