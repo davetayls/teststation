@@ -33,60 +33,55 @@
 
         <div id="message"></div>
 
-        <script src="lib/Three.js"></script>
-        <script src="lib/dat.gui.min.js"></script>
-        <script src="lib/Detector.js"></script>
-        <script src="lib/Stats.js"></script>
-        <script src="lib/TrackballControls.js"></script>
-        <script src="lib/THREEx.KeyboardState.js"></script>
-        <script src="lib/THREEx.FullScreen.js"></script>
-        <script src="lib/THREEx.WindowResize.js"></script>
-
-        <script src="setup.js"></script>
+        <script src="../lib/Three.js"></script>
+        <script src="../lib/dat.gui.min.js"></script>
+        <script src="../lib/Detector.js"></script>
+        <script src="../lib/Stats.js"></script>
+        <script src="../lib/TrackballControls.js"></script>
+        <script src="../lib/THREEx.KeyboardState.js"></script>
+        <script src="../lib/THREEx.FullScreen.js"></script>
+        <script src="../lib/THREEx.WindowResize.js"></script>
+        <script src="../setup.js"></script>
 
         <script>
             // custom global
             var opt = {
-                number: 10,
+                number: 4,
                 gap: 50
-            }
-
-            // initialization
-            init();
-
-            // animation loop / game loop
-            animate();
+            };
+            var projector = new THREE.Projector(),
+                dots = []
+            ;
 
             function init(){
-                _init();
+                scene = new THREE.Scene();
+                initCamera();
+                initRenderer();
+                renderer.domElement.addEventListener( 'mousedown', onDocumentMouseDown, false );
+                initControls();
 
-                addAxes();
+                // addAxes();
                 // addFloor();
                 // addSkyBox();
 
                 addGrid();
                 addLights();
+
             }
 
             function addGrid() {
-                var offset = opt.number * opt.gap /2;
+                var offset = (opt.number * opt.gap) /2;
                 // X
                 for (var X=0; X < opt.number; X++){
                     // Y
                     for (var Y=0; Y < opt.number; Y++){
                         // Z
                         for (var Z=0; Z < opt.number; Z++){
-                            var sphere = new THREE.Mesh(
-                                    new THREE.SphereGeometry(5,5,5),
-                                    new THREE.MeshLambertMaterial({ color: 0xffffff })
-                                )
-                            ;
-                            sphere.position.set(
+                            dots.push(new Dot(
                                 X*opt.gap -offset,
                                 Y*opt.gap -offset,
                                 Z*opt.gap -offset
-                            );
-                            scene.add(sphere);
+                            ));
                         }
                     }
 
@@ -113,6 +108,52 @@
                 controls.update();
                 stats.update();
             }
+
+            function onDocumentMouseDown(event) {
+                event.preventDefault();
+
+                var vector = new THREE.Vector3(
+                    ( event.clientX / window.innerWidth ) * 2 - 1,    // x
+                    - ( event.clientY / window.innerHeight ) * 2 + 1, // y
+                    0.5 // z
+                );
+                projector.unprojectVector( vector, camera );
+
+                var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+                var intersects = raycaster.intersectObjects( dots );
+
+                if ( intersects.length > 0 ) {
+                    intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+                }
+
+            }
+
+
+
+            // OBJECTS ---------------------
+
+            // dot
+            function Dot(x, y, z) {
+                THREE.Mesh.call(this,
+                    new THREE.SphereGeometry(5,5,5),
+                    new THREE.MeshLambertMaterial({ color: 0xffffff })
+                );
+                this.position.set(x, y, z);
+                scene.add(this);
+            }
+            Dot.prototype = Object.create(THREE.Mesh.prototype);
+
+
+
+
+
+
+            // initialization
+            init();
+
+            // animation loop / game loop
+            animate();
 
         </script>
     </body>
