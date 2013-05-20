@@ -41,6 +41,7 @@
         <script src="../lib/THREEx.KeyboardState.js"></script>
         <script src="../lib/THREEx.FullScreen.js"></script>
         <script src="../lib/THREEx.WindowResize.js"></script>
+        <script src="../lib/Sparks.js"></script>
         <script src="../../utils/createjs-2013.05.14.min.js"></script>
         <script src="../setup.js"></script>
 
@@ -61,6 +62,15 @@
 
             // sounds
             createjs.Sound.registerSound('sounds/pip-high.mp3', 'pip-high');
+
+            // particles
+            var particleCount = 1000,
+                particles = new THREE.Geometry(),
+                pMat = new THREE.ParticleBasicMaterial({
+                    color: 0xffffff,
+                    size: 20
+                })
+            ;
 
             function init(){
                 scene = new THREE.Scene();

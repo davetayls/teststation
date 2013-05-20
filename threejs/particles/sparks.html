@@ -25,27 +25,32 @@
 
         <div id="message"></div>
 
-        <script src="lib/Three.js"></script>
-        <script src="lib/dat.gui.min.js"></script>
-        <script src="lib/Detector.js"></script>
-        <script src="lib/Stats.js"></script>
-        <script src="lib/TrackballControls.js"></script>
-        <script src="lib/THREEx.KeyboardState.js"></script>
-        <script src="lib/THREEx.FullScreen.js"></script>
-        <script src="lib/THREEx.WindowResize.js"></script>
-
-        <script src="setup.js"></script>
+        <script src="../lib/Three.js"></script>
+        <script src="../lib/dat.gui.min.js"></script>
+        <script src="../lib/Detector.js"></script>
+        <script src="../lib/Stats.js"></script>
+        <script src="../lib/TrackballControls.js"></script>
+        <script src="../lib/THREEx.KeyboardState.js"></script>
+        <script src="../lib/THREEx.FullScreen.js"></script>
+        <script src="../lib/THREEx.WindowResize.js"></script>
+        <script src="../lib/Sparks.js"></script>
+        <script src="../setup.js"></script>
 
         <script>
             // custom global
+            var counter = new SPARKS.SteadyCounter(500),
+                emitter = new SPARKS.Emitter(counter)
+            ;
 
             function init(){
                 _init();
 
                 addAxes();
                 addPointLight();
-                addFloor();
+                // addFloor();
                 addSkyBox();
+
+                emitter.start();
 
             }
 
@@ -62,7 +67,6 @@
 
             // animation loop / game loop
             animate();
-
 
         </script>
     </body>

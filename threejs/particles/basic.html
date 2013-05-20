@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+                background: black;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                font-family: sans-serif;
+                font-size: 12px;
+            }
+            #message {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                padding: 3px 5px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="message"></div>
+
+        <script src="../lib/Three.js"></script>
+        <script src="../lib/dat.gui.min.js"></script>
+        <script src="../lib/Detector.js"></script>
+        <script src="../lib/Stats.js"></script>
+        <script src="../lib/TrackballControls.js"></script>
+        <script src="../lib/THREEx.KeyboardState.js"></script>
+        <script src="../lib/THREEx.FullScreen.js"></script>
+        <script src="../lib/THREEx.WindowResize.js"></script>
+        <script src="../setup.js"></script>
+
+        <script>
+            // custom global
+            var particleCount = 1000,
+                particles = new THREE.Geometry(),
+                pMat = new THREE.ParticleBasicMaterial({
+                    color: 0xffffff,
+                    size: 20,
+                    map: THREE.ImageUtils.loadTexture(
+                        '../grid-dots/magenta-glow-black.png'
+                    ),
+                    blending: THREE.AdditiveBlending,
+                    transparent: true
+                }),
+                particleSystem = new THREE.ParticleSystem(
+                    particles,
+                    pMat
+                )
+            ;
+
+            function init(){
+                _init();
+
+                addAxes();
+                addPointLight();
+                // addFloor();
+                // addSkyBox();
+
+                particleSystem.sortParticles = true;
+
+                for (var i=0; i < particleCount; i++){
+                    var p = new THREE.Vector3(0, 0, 0);
+                    p.velocity = new THREE.Vector3(
+                        Math.random() * 2 -1,
+                        Math.random() * 2 -1,
+                        Math.random() * 2 -1
+                    );
+                    particles.vertices.push(p);
+                }
+
+                scene.add(particleSystem);
+            }
+
+            function update(){
+                // delta = change in time since last call (in seconds)
+                var delta = clock.getDelta();
+
+                controls.update();
+                stats.update();
+
+                var pCount = particleCount;
+                while(pCount--){
+                    var p = particles.vertices[pCount];
+                    p.add(p.velocity);
+                }
+                particleSystem.rotation.y += 0.01;
+                particleSystem.rotation.z += 0.01;
+                particleSystem.geometry.__dirtyVertices = true;
+            }
+
+            // initialization
+            init();
+
+            // animation loop / game loop
+            animate();
+
+        </script>
+    </body>
+</html>
