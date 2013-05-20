@@ -7,13 +7,13 @@
         <style>
             body {
 
-                background: #999999; /* Old browsers */
-                background: -moz-radial-gradient(center, ellipse cover,  #999999 0%, #3f3f3f 100%); /* FF3.6+ */
-                background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#999999), color-stop(100%,#3f3f3f)); /* Chrome,Safari4+ */
-                background: -webkit-radial-gradient(center, ellipse cover,  #999999 0%,#3f3f3f 100%); /* Chrome10+,Safari5.1+ */
-                background: -o-radial-gradient(center, ellipse cover,  #999999 0%,#3f3f3f 100%); /* Opera 12+ */
-                background: -ms-radial-gradient(center, ellipse cover,  #999999 0%,#3f3f3f 100%); /* IE10+ */
-                background: radial-gradient(ellipse at center,  #999999 0%,#3f3f3f 100%); /* W3C */
+                background: #333333; /* Old browsers */
+                background: -moz-radial-gradient(center, ellipse cover,  #333333 0%, #111111 100%); /* FF3.6+ */
+                background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#333333), color-stop(100%,#111111)); /* Chrome,Safari4+ */
+                background: -webkit-radial-gradient(center, ellipse cover,  #333333 0%,#111111 100%); /* Chrome10+,Safari5.1+ */
+                background: -o-radial-gradient(center, ellipse cover,  #333333 0%,#111111 100%); /* Opera 12+ */
+                background: -ms-radial-gradient(center, ellipse cover,  #333333 0%,#111111 100%); /* IE10+ */
+                background: radial-gradient(ellipse at center,  #333333 0%,#111111 100%); /* W3C */
 
                 margin: 0;
                 padding: 0;
@@ -46,6 +46,8 @@
         <script>
             // custom global
             var opt = {
+                dotColor: 0x54f4da,
+                dotSelectedColor: 0xfb1ef9,
                 number: 4,
                 gap: 50,
                 smoothness: 20
@@ -144,7 +146,7 @@
                 var intersects = raycaster.intersectObjects( dots );
 
                 if ( intersects.length > 0 ) {
-                    intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+                    intersects[ 0 ].object.material.color.setHex( opt.dotSelectedColor );
                 }
 
             }
@@ -157,7 +159,7 @@
             function Dot(x, y, z) {
                 THREE.Mesh.call(this,
                     new THREE.SphereGeometry(5,opt.smoothness,opt.smoothness),
-                    new THREE.MeshLambertMaterial({ color: 0xffffff })
+                    new THREE.MeshLambertMaterial({ color: opt.dotColor })
                 );
                 this.position.set(x, y, z);
                 scene.add(this);
