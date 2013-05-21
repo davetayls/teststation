@@ -52,7 +52,8 @@
                 dotSelectedColor: 0xfb1ef9,
                 number: 4,
                 gap: 50,
-                smoothness: 20
+                smoothness: 20,
+                numberFloating: 12
             };
             var projector = new THREE.Projector(),
                 dots = [],
@@ -100,18 +101,20 @@
                 }
             }
             function addFloatingDots() {
-                var d = new Dot(
-                    Math.random() * 10,
-                    Math.random() * 10,
-                    Math.random() * 10
-                );
-                d.material.color.setHex(0xff0000);
-                d.velocity = new THREE.Vector3(
-                    Math.random() * 2 -1,
-                    Math.random() * 2 -1,
-                    Math.random() * 2 -1
-                );
-                floatingDots.push(d);
+                for (var i=0; i < opt.numberFloating; i++){
+                    var d = new Dot(
+                        Math.random() * 10,
+                        Math.random() * 10,
+                        Math.random() * 10
+                    );
+                    d.material.color.setHex(0xff0000);
+                    d.velocity = new THREE.Vector3(
+                        Math.random() * 2 -1,
+                        Math.random() * 2 -1,
+                        Math.random() * 2 -1
+                    );
+                    floatingDots.push(d);
+                }
             }
             function addLights() {
                 var light = new THREE.PointLight(0xffffff);
