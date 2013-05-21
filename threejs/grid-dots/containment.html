@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+    <head>
+        <title>ThreeJs Grid of Dots</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+
+                background: #333333; /* Old browsers */
+                background: -moz-radial-gradient(center, ellipse cover,  #333333 0%, #111111 100%); /* FF3.6+ */
+                background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#333333), color-stop(100%,#111111)); /* Chrome,Safari4+ */
+                background: -webkit-radial-gradient(center, ellipse cover,  #333333 0%,#111111 100%); /* Chrome10+,Safari5.1+ */
+                background: -o-radial-gradient(center, ellipse cover,  #333333 0%,#111111 100%); /* Opera 12+ */
+                background: -ms-radial-gradient(center, ellipse cover,  #333333 0%,#111111 100%); /* IE10+ */
+                background: radial-gradient(ellipse at center,  #333333 0%,#111111 100%); /* W3C */
+
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                font-family: sans-serif;
+                font-size: 12px;
+            }
+            #message {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                padding: 3px 5px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="message"></div>
+
+        <script src="../lib/Three.js"></script>
+        <script src="../lib/dat.gui.min.js"></script>
+        <script src="../lib/Detector.js"></script>
+        <script src="../lib/Stats.js"></script>
+        <script src="../lib/TrackballControls.js"></script>
+        <script src="../lib/THREEx.KeyboardState.js"></script>
+        <script src="../lib/THREEx.FullScreen.js"></script>
+        <script src="../lib/THREEx.WindowResize.js"></script>
+        <script src="../lib/Sparks.js"></script>
+        <script src="../../utils/createjs-2013.05.14.min.js"></script>
+        <script src="../setup.js"></script>
+
+        <script>
+            // custom global
+            var opt = {
+                dotColor: 0x54f4da,
+                dotSelectedColor: 0xfb1ef9,
+                number: 4,
+                gap: 50,
+                smoothness: 20
+            };
+            var projector = new THREE.Projector(),
+                dots = [],
+                floatingDots = [],
+                glowTx = new THREE.ImageUtils.loadTexture('magenta-glow.png'),
+                glowMat = new THREE.MeshPhongMaterial({ map: glowTx, ambient: 0xffffff })
+            ;
+
+            // sounds
+            createjs.Sound.registerSound('sounds/pip-high.mp3', 'pip-high');
+
+            function init(){
+                scene = new THREE.Scene();
+                initCamera();
+                initRenderer();
+                renderer.domElement.addEventListener( 'mousedown', onDocumentMouseDown, false );
+                initControls();
+
+                // addAxes();
+                // addFloor();
+                // addSkyBox();
+
+                addGrid();
+                addFloatingDots();
+                addLights();
+
+            }
+
+            function addGrid() {
+                var offset = ((opt.number-1) * opt.gap) /2;
+                // X
+                for (var X=0; X < opt.number; X++){
+                    // Y
+                    for (var Y=0; Y < opt.number; Y++){
+                        // Z
+                        for (var Z=0; Z < opt.number; Z++){
+                            dots.push(new Dot(
+                                X*opt.gap -offset,
+                                Y*opt.gap -offset,
+                                Z*opt.gap -offset
+                            ));
+                        }
+                    }
+
+                }
+            }
+            function addFloatingDots() {
+                var d = new Dot(
+                    Math.random() * 10,
+                    Math.random() * 10,
+                    Math.random() * 10
+                );
+                d.material.color.setHex(0xff0000);
+                d.velocity = new THREE.Vector3(
+                    Math.random() * 2 -1,
+                    Math.random() * 2 -1,
+                    Math.random() * 2 -1
+                );
+                floatingDots.push(d);
+            }
+            function addLights() {
+                var light = new THREE.PointLight(0xffffff);
+                light.intensity = 0.6;
+                light.position.set(200, 0, 0);
+                scene.add(light);
+
+                var light = new THREE.PointLight(0xffffff);
+                light.intensity = 0.6;
+                light.position.set(0, 200, 0);
+                scene.add(light);
+
+                var light = new THREE.PointLight(0xffffff);
+                light.intensity = 0.6;
+                light.position.set(0, 0, 200);
+                scene.add(light);
+
+                var light = new THREE.PointLight(0xffffff);
+                light.intensity = 0.6;
+                light.position.set(-200, 0, 0);
+                scene.add(light);
+
+                var light = new THREE.PointLight(0xffffff);
+                light.intensity = 0.6;
+                light.position.set(0, -200, 0);
+                scene.add(light);
+
+                var light = new THREE.PointLight(0xffffff);
+                light.intensity = 0.6;
+                light.position.set(0, 0, -200);
+                scene.add(light);
+
+            }
+
+            function update(){
+                // delta = change in time since last call (in seconds)
+                var delta = clock.getDelta();
+
+                controls.update();
+                stats.update();
+
+                updateFloatingDots();
+            }
+            function updateFloatingDots() {
+                var offset = ((opt.number-1) * opt.gap) /2;
+
+                for (var i=0; i < floatingDots.length; i++){
+                    var d = floatingDots[i];
+                    d.position.add(d.velocity);
+                    if (d.position.x > offset || d.position.x < -offset){
+                        d.velocity.x *= -1;
+                    }
+                    if (d.position.y > offset || d.position.y < -offset){
+                        d.velocity.y *= -1;
+                    }
+                    if (d.position.z > offset || d.position.z < -offset){
+                        d.velocity.z *= -1;
+                    }
+                }
+            }
+
+            function onDocumentMouseDown(event) {
+                event.preventDefault();
+
+                var vector = new THREE.Vector3(
+                    ( event.clientX / window.innerWidth ) * 2 - 1,    // x
+                    - ( event.clientY / window.innerHeight ) * 2 + 1, // y
+                    0.5 // z
+                );
+                projector.unprojectVector( vector, camera );
+
+                var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+                var intersects = raycaster.intersectObjects( dots );
+
+                if ( intersects.length > 0 ) {
+                    intersects[0].object.material.color.setHex( opt.dotSelectedColor );
+                    createjs.Sound.play('pip-high');
+                }
+
+            }
+
+
+
+            // OBJECTS ---------------------
+
+            // dot
+            function Dot(x, y, z) {
+                THREE.Mesh.call(this,
+                    new THREE.SphereGeometry(5,opt.smoothness,opt.smoothness),
+                    new THREE.MeshLambertMaterial({ color: opt.dotColor })
+                );
+                this.position.set(x, y, z);
+                scene.add(this);
+
+                // var glow = new THREE.Mesh(
+                //     new THREE.CubeGeometry(50, 200, 200),
+                //     glowMat
+                // );
+                // glow.position.set(x,y,z);
+                // scene.add(glow);
+            }
+            Dot.prototype = Object.create(THREE.Mesh.prototype);
+
+
+
+
+
+
+            // initialization
+            init();
+
+            // animation loop / game loop
+            animate();
+
+        </script>
+    </body>
+</html>
