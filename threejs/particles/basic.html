@@ -38,6 +38,8 @@
         <script>
             // custom global
             var particleCount = 1000,
+                maxDistance   = 1000,
+                maxReached    = false,
                 particles = new THREE.Geometry(),
                 pMat = new THREE.ParticleBasicMaterial({
                     color: 0xffffff,
@@ -87,7 +89,12 @@
                 var pCount = particleCount;
                 while(pCount--){
                     var p = particles.vertices[pCount];
-                    p.add(p.velocity);
+                    if (p.x > maxDistance && p.y > maxDistance && p.z > maxDistance){
+                        maxReached = true;
+                    }
+                    if (!maxReached){
+                        p.add(p.velocity);
+                    }
                 }
                 particleSystem.rotation.y += 0.01;
                 particleSystem.rotation.z += 0.01;
