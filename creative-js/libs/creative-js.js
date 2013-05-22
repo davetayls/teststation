@@ -96,14 +96,14 @@ var mouseX = 0,
 	lastUpdate = Date.now(),
 	mouseDown = false;
 
-function cjsloop() {
+function cjsloop(time) {
 
 	var now = Date.now();
 	var elapsedMils = now - lastUpdate;
 
 
 	if((typeof window.draw == 'function') && (elapsedMils>=(1000/window.frameRate))) {
-		window.draw();
+		window.draw(time);
 
 		lastUpdate = now;
 		lastMouseX = mouseX;
