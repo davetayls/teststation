@@ -19,7 +19,8 @@ var seed = 0,
 		hsla(125, 100, 50, 0.5),
 		hsla(200, 100, 50, 0.5),
 		hsla(300, 100, 50, 0.5)
-	]
+	],
+	graphColor = hsl(0, 0, 60)
 ;
 
 // set up automatically called on load by creative-js.js
@@ -66,8 +67,8 @@ function draw() {
 		zoom = window.zoom === 'auto' ? (canvas.width / window.max) / (window.step*gap) : window.zoom
 	;
 	for (var i=0; i < values.length; i++){
-		ctx.fillStyle = '#ffff00';
-		ctx.strokeStyle = '#ffff00';
+		ctx.fillStyle = graphColor;
+		ctx.strokeStyle = graphColor;
 		var v = values[i],
 			x = startPos.x,
 			y
@@ -82,7 +83,7 @@ function draw() {
 			y=startPos.y-v.value[vi];
 			colors[vi] = colors[vi] || hsla(random(100, 300), 100, 50, 0.5);
 			ctx.fillStyle = colors[vi]
-			ctx.fillCircle(x, y, 2);
+			ctx.fillCircle(x, y, 4);
 		}
 	}
 }
