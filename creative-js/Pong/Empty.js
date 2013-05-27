@@ -9,7 +9,7 @@ var screenWidth,
 	canvas,
 	ctx;
 
-// set up automatically called on load by creativejs.js
+// set up automatically called on load by creative-js.js
 function setup(){
 	initVars();
 	initCanvas();
@@ -17,7 +17,7 @@ function setup(){
 }
 
 // MAIN GAME LOOP
-// draw automatically called by creativejs.js
+// draw automatically called by creative-js.js
 function draw() {
 
 	ctx.clearRect(0,0,canvas.width, canvas.height);
