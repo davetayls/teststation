@@ -47,30 +47,30 @@
     <script src="../libs/creative-js.js"></script>
     <script src="../libs/Vector2.js"></script>
     <script src="../../threejs/source/examples/js/ImprovedNoise.js"></script>
+    <script src="../../utils/perlin-noise-classical.js"></script>
+    <script src="../../utils/perlin-noise-simplex.js"></script>
     <script src="core.js"></script>
 
 <script id="script" contenteditable>
 
 // Click Canvas to Pause
 
-window.step = 0.04;
+window.step = 0.02;
 window.zoom = 'auto';
 window.max  = 200;
 
-var perlin = new ImprovedNoise();
+var perlin = new ImprovedNoise(),
+    classical = new ClassicalNoise(),
+    simplex = new SimplexNoise()
+;
 
 window.getVal = function(s){
   return [
     perlin.noise(s, s, s)*200
-  , Math.sin(s)*100
-  , Math.cos(s)*100
-  , Math.tan(s)*100
-  // , m(s)*10
+  , classical.noise(s, s, s)*200
+  , simplex.noise(s, s)*200
   ];
-}
-window.m = function(s){
-    return 1/ (s%4);
-}
+};
 
 </script>
     </body>
