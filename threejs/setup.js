@@ -14,6 +14,15 @@ var container,
     gui           = new dat.GUI()
 ;
 
+// set the view size in pixels (custom or according to window size)
+// var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
+// camera attributes
+var VIEW_ANGLE = 45,
+    ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
+    NEAR = 0.1,
+    FAR = 20000
+;
+
 function _init(){
     scene = new THREE.Scene();
     initCamera();
@@ -34,14 +43,6 @@ function render()
 }
 
 function initCamera(){
-    // set the view size in pixels (custom or according to window size)
-    // var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
-    // camera attributes
-    var VIEW_ANGLE = 45,
-        ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
-        NEAR = 0.1,
-        FAR = 20000
-    ;
     // set up camera
     camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
     // add the camera to the scene

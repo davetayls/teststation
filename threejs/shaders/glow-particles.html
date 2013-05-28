@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Three.js -- Selective Glow</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body
+		{
+			font-family: Monospace;
+			font-weight: bold;
+			background-color: #ccccff;
+			margin: 0px;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+
+<script src="../lib/Three.js"></script>
+<script src="../lib/Detector.js"></script>
+<script src="../lib/Stats.js"></script>
+<script src="../lib/TrackballControls.js"></script>
+<script src="../lib/THREEx.KeyboardState.js"></script>
+<script src="../lib/THREEx.FullScreen.js"></script>
+<script src="../lib/THREEx.WindowResize.js"></script>
+
+<!-- Note the additional JS files! always need all of these for postprocessing. -->
+<script src="../source/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="../source/examples/js/postprocessing/RenderPass.js"></script>
+<script src="../source/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="../source/examples/js/postprocessing/MaskPass.js"></script>
+<script src="../source/examples/js/shaders/ConvolutionShader.js"></script>
+<script src="../source/examples/js/shaders/CopyShader.js"></script>
+
+<!-- separate out the shaders specific to this demo -->
+<script src="../source/examples/js/shaders/AdditiveBlendShader.js"></script>
+<script src="../source/examples/js/shaders/HorizontalBlurShader.js"></script>
+<script src="../source/examples/js/shaders/VerticalBlurShader.js"></script>
+<script src="../source/examples/js/postprocessing/BloomPass.js"></script>
+
+<script>
+/*
+	Three.js "tutorials by example"
+	Author: Lee Stemkoski
+	Date: March 2013 (three.js v56)
+ */
+
+// MAIN
+
+// standard global variables
+var container, scene, camera, renderer, controls, stats;
+var keyboard = new THREEx.KeyboardState();
+var clock = new THREE.Clock();
+
+var particles = new THREE.Geometry(),
+	numParticles  = 1000,
+    maxDistance   = 10000,
+    maxReached    = false,
+    pMat = new THREE.ParticleBasicMaterial({
+        color: 0x00ffff,
+        size: 1,
+        blending: THREE.AdditiveBlending,
+        transparent: true
+    }),
+    particleSystem = new THREE.ParticleSystem(
+        particles,
+        pMat
+    )
+;
+
+// secondary
+var scene2,
+	particles2 = new THREE.Geometry(),
+    particleSystem2 = new THREE.ParticleSystem(
+        particles2,
+        pMat
+    )
+;
+
+// custom global variables
+var composer2, finalComposer;
+
+
+init();
+animate();
+
+// FUNCTIONS
+function init(){
+	// SCENE
+	scene = new THREE.Scene();
+	// CAMERA
+	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+	var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+	scene.add(camera);
+	camera.position.set(0,0,400);
+	camera.lookAt(scene.position);
+
+	// RENDERER
+	if ( Detector.webgl )
+		renderer = new THREE.WebGLRenderer( {antialias:true} );
+	else
+		renderer = new THREE.CanvasRenderer();
+	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	container = document.createElement( 'div' );
+	document.body.appendChild( container );
+	container.appendChild( renderer.domElement );
+
+	// EVENTS
+	THREEx.WindowResize(renderer, camera);
+	THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+
+	// CONTROLS
+	controls = new THREE.TrackballControls( camera, renderer.domElement );
+
+	// STATS
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.bottom = '0px';
+	stats.domElement.style.zIndex = 100;
+	container.appendChild( stats.domElement );
+
+	// LIGHT
+	var light = new THREE.PointLight(0xffffff);
+	light.position.set(0,250,0);
+	scene.add(light);
+
+
+
+
+
+
+
+
+
+	////////////
+	// CUSTOM //
+	////////////
+
+
+	////////////////////////////////////////////////////////////////
+	// set up secondary scene
+	////////////////////////////////////////////////////////////////
+
+	scene2 = new THREE.Scene();
+
+	// lights
+	scene2.add( new THREE.PointLight( 0xffffff ) );
+	scene2.add( new THREE.AmbientLight( 0xffffff ) );
+
+	// camera
+	camera2 = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+	camera2.position = camera.position;
+	camera2.rotation = camera.rotation;
+	camera.lookAt(scene.position);
+	scene2.add( camera2 );
+
+	////////////////////////////////////////////////////////////////
+	// set up objects
+	////////////////////////////////////////////////////////////////
+
+	for (var i=0; i < numParticles; i++){
+		addParticle();
+	}
+    particleSystem.sortParticles = true;
+    particleSystem2.sortParticles = true;
+    particleSystem2.rotation = particleSystem.rotation;
+	scene.add(particleSystem);
+	scene2.add(particleSystem2);
+
+
+
+	// prepare secondary composer
+	var renderTargetParameters = {
+		minFilter: THREE.LinearFilter,
+		magFilter: THREE.LinearFilter,
+		format: THREE.RGBFormat,
+		stencilBuffer: false
+	};
+
+	var renderTarget = new THREE.WebGLRenderTarget(
+		SCREEN_WIDTH,
+		SCREEN_HEIGHT,
+		renderTargetParameters
+	);
+	composer2 = new THREE.EffectComposer( renderer, renderTarget );
+
+	// prepare the secondary render's passes
+	var render2Pass = new THREE.RenderPass( scene2, camera2 );
+	composer2.addPass( render2Pass );
+
+	// special effects to be applied to secondary render:
+	composer2.addPass(new THREE.BloomPass(3, 25, 5, 256));
+
+
+
+
+	////////////////////////////////////////////////////////////////////////
+	// final composer will blend composer2.render() results with the scene
+	////////////////////////////////////////////////////////////////////////
+
+	// prepare final composer
+	finalComposer = new THREE.EffectComposer( renderer, renderTarget );
+
+	// prepare the final render's passes
+	var renderModel = new THREE.RenderPass( scene, camera );
+	finalComposer.addPass( renderModel );
+
+	var effectBlend = new THREE.ShaderPass( THREE.AdditiveBlendShader, "tDiffuse1" );
+	effectBlend.uniforms[ 'tDiffuse2' ].value = composer2.renderTarget2;
+	effectBlend.renderToScreen = true;
+	finalComposer.addPass( effectBlend );
+}
+
+function addParticle() {
+
+	// primary scene
+    var p = new THREE.Vector3(
+        Math.random() * 200 -100,
+        Math.random() * 200 -100,
+        Math.random() * 400 -200
+    );
+    p.velocity = new THREE.Vector3(
+        0, //Math.random() * 2 -1,
+        0, //Math.random() * 2 -1
+        Math.random()
+    );
+    particles.vertices.push(p);
+
+	// secondary scene
+    var p2 = p.clone();
+    particles2.vertices.push(p2);
+}
+
+function animate()
+{
+    requestAnimationFrame( animate );
+	render();
+	update();
+}
+
+function update()
+{
+	controls.update();
+	stats.update();
+
+	var pCount = particles.vertices.length;
+	while(pCount--){
+	    var p = particles.vertices[pCount];
+	    // if (p.x > maxDistance && p.y > maxDistance && p.z > maxDistance){
+	    //     maxReached = true;
+	    // }
+	    if (!maxReached){
+	        p.add(p.velocity);
+	    }
+	    particles2.vertices[pCount].copy(p);
+	}
+
+	// particleSystem.rotation.y += 0.005;
+	particleSystem.rotation.z += 0.002;
+	particleSystem.geometry.__dirtyVertices = true;
+	particleSystem2.geometry.__dirtyVertices = true;
+
+
+
+}
+
+function render()
+{
+	composer2.render();
+	finalComposer.render();
+}
+
+</script>
+
+</body>
+</html>

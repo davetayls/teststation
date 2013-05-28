@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Three.js -- Selective Glow</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body
+		{
+			font-family: Monospace;
+			font-weight: bold;
+			background-color: #ccccff;
+			margin: 0px;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+
+<script src="../lib/Three.js"></script>
+<script src="../lib/Detector.js"></script>
+<script src="../lib/Stats.js"></script>
+<script src="../lib/TrackballControls.js"></script>
+<script src="../lib/THREEx.KeyboardState.js"></script>
+<script src="../lib/THREEx.FullScreen.js"></script>
+<script src="../lib/THREEx.WindowResize.js"></script>
+
+<!-- Note the additional JS files! always need all of these for postprocessing. -->
+<script src="../source/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="../source/examples/js/postprocessing/RenderPass.js"></script>
+<script src="../source/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="../source/examples/js/postprocessing/MaskPass.js"></script>
+<script src="../source/examples/js/shaders/ConvolutionShader.js"></script>
+<script src="../source/examples/js/shaders/CopyShader.js"></script>
+
+<!-- separate out the shaders specific to this demo -->
+<script src="../source/examples/js/shaders/AdditiveBlendShader.js"></script>
+<script src="../source/examples/js/shaders/HorizontalBlurShader.js"></script>
+<script src="../source/examples/js/shaders/VerticalBlurShader.js"></script>
+<script src="../source/examples/js/postprocessing/BloomPass.js"></script>
+
+<script>
+/*
+	Three.js "tutorials by example"
+	Author: Lee Stemkoski
+	Date: March 2013 (three.js v56)
+ */
+
+// MAIN
+
+// standard global variables
+var container, scene, camera, renderer, controls, stats;
+var keyboard = new THREEx.KeyboardState();
+var clock = new THREE.Clock();
+
+// custom global variables
+var composer2, finalComposer;
+
+init();
+animate();
+
+// FUNCTIONS
+function init()
+{
+	// SCENE
+	scene = new THREE.Scene();
+	// CAMERA
+	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+	var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+	scene.add(camera);
+	camera.position.set(0,150,400);
+	camera.lookAt(scene.position);
+
+	// RENDERER
+	if ( Detector.webgl )
+		renderer = new THREE.WebGLRenderer( {antialias:true} );
+	else
+		renderer = new THREE.CanvasRenderer();
+	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	container = document.createElement( 'div' );
+	document.body.appendChild( container );
+	container.appendChild( renderer.domElement );
+
+	// EVENTS
+	THREEx.WindowResize(renderer, camera);
+	THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+
+	// CONTROLS
+	controls = new THREE.TrackballControls( camera, renderer.domElement );
+
+	// STATS
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.bottom = '0px';
+	stats.domElement.style.zIndex = 100;
+	container.appendChild( stats.domElement );
+
+	// LIGHT
+	var light = new THREE.PointLight(0xffffff);
+	light.position.set(0,250,0);
+	scene.add(light);
+
+
+
+
+
+
+
+
+
+	////////////
+	// CUSTOM //
+	////////////
+
+	////////////////////////////////////////////////////////////////
+	// set up primary scene
+	////////////////////////////////////////////////////////////////
+
+	var cubeGeometry = new THREE.SphereGeometry( 50, 50, 50 );
+	var crateMaterial = new THREE.MeshPhongMaterial( { color: 0x00ffff } );
+	var cube = new THREE.Mesh( cubeGeometry, crateMaterial );
+	scene.add(cube);
+
+	////////////////////////////////////////////////////////////////
+	// set up secondary scene
+	////////////////////////////////////////////////////////////////
+
+	var scene2 = new THREE.Scene();
+
+	// lights
+	scene2.add( new THREE.PointLight( 0xffffff ) );
+	scene2.add( new THREE.AmbientLight( 0xffffff ) );
+
+	// camera
+	camera2 = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+	camera2.position = camera.position;
+	camera2.rotation = camera.rotation;
+	camera.lookAt(scene.position);
+	scene2.add( camera2 );
+
+	// objects
+	var cubeGeometry2 = new THREE.SphereGeometry( 55, 55, 55 );
+	var crateMaterial2 = new THREE.MeshBasicMaterial( {
+		color: 0x0088ff,
+		transparent:true,
+		opacity:0.50
+	});
+	var cube2 = new THREE.Mesh( cubeGeometry2, crateMaterial2 );
+	scene2.add(cube2);
+
+
+
+
+	// prepare secondary composer
+	var renderTargetParameters = {
+		minFilter: THREE.LinearFilter,
+		magFilter: THREE.LinearFilter,
+		format: THREE.RGBFormat,
+		stencilBuffer: false
+	};
+
+	var renderTarget = new THREE.WebGLRenderTarget(
+		SCREEN_WIDTH,
+		SCREEN_HEIGHT,
+		renderTargetParameters
+	);
+	composer2 = new THREE.EffectComposer( renderer, renderTarget );
+
+	// prepare the secondary render's passes
+	var render2Pass = new THREE.RenderPass( scene2, camera2 );
+	composer2.addPass( render2Pass );
+
+	// special effects to be applied to secondary render:
+	composer2.addPass(new THREE.BloomPass(1, 25, 10, 256));
+
+
+
+
+	////////////////////////////////////////////////////////////////////////
+	// final composer will blend composer2.render() results with the scene
+	////////////////////////////////////////////////////////////////////////
+
+	// prepare final composer
+	finalComposer = new THREE.EffectComposer( renderer, renderTarget );
+
+	// prepare the final render's passes
+	var renderModel = new THREE.RenderPass( scene, camera );
+	finalComposer.addPass( renderModel );
+
+	var effectBlend = new THREE.ShaderPass( THREE.AdditiveBlendShader, "tDiffuse1" );
+	effectBlend.uniforms[ 'tDiffuse2' ].value = composer2.renderTarget2;
+	effectBlend.renderToScreen = true;
+	finalComposer.addPass( effectBlend );
+}
+
+function animate()
+{
+    requestAnimationFrame( animate );
+	render();
+	update();
+}
+
+function update()
+{
+	controls.update();
+	stats.update();
+
+
+}
+
+function render()
+{
+	composer2.render();
+	finalComposer.render();
+}
+
+</script>
+
+</body>
+</html>
