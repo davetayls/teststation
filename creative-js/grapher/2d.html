@@ -61,10 +61,10 @@ var perlin = new ImprovedNoise();
 
 window.getVal = function(s){
   return [
-    perlin.noise(s, s, s)*200
-  , Math.sin(s)*100
-  , Math.cos(s)*100
-  , Math.tan(s)*100
+    perlin.noise(s, s, s)
+  , Math.sin(s)
+  , Math.cos(s)
+  , Math.tan(s)
   // , m(s)*10
   ];
 }

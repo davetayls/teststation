@@ -12,6 +12,7 @@ var seed = 0,
 	max  = 120,
 	gap  = 60,
 	frame = 0,
+	zoomY = 100,
 	values = [],
 	colors = [
 		hsla(0,   100, 50, 0.5),
@@ -36,6 +37,9 @@ function setup(){
 function draw() {
 	ctx.clearRect(0,0,canvas.width, canvas.height);
 	ctx.line(0, startPos.y, screenWidth, startPos.y);
+	ctx.strokeStyle = rgba(100,255,255,0.3);
+	ctx.line(0, startPos.y-100, screenWidth, startPos.y-100);
+	ctx.line(0, startPos.y+100, screenWidth, startPos.y+100);
 
 	if (!window.pause){
 		frame++;
@@ -80,7 +84,7 @@ function draw() {
 			rotatedText(v.seed, x, startPos.y+20, 90);
 		}
 		for (var vi=0; vi < v.value.length; vi++){
-			y=startPos.y-v.value[vi];
+			y=startPos.y-(v.value[vi]*zoomY);
 			colors[vi] = colors[vi] || hsla(random(100, 300), 100, 50, 0.5);
 			ctx.fillStyle = colors[vi]
 			ctx.fillCircle(x, y, 4);
@@ -136,11 +140,9 @@ function evalScript(){
 
 var TO_RADIANS = Math.PI/180;
 function rotatedText(text, x, y, angle) {
-
 	// save the current co-ordinate system
 	// before we screw with it
 	ctx.save();
-
 	// move to the middle of where we want to draw our image
 	ctx.translate(x, y);
 

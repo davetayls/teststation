@@ -66,9 +66,9 @@ var perlin = new ImprovedNoise(),
 
 window.getVal = function(s){
   return [
-    perlin.noise(s, s, s)*200
-  , classical.noise(s, s, s)*200
-  , simplex.noise(s, s)*200
+    perlin.noise(s, s, s)
+  , classical.noise(s, s, s)
+  , simplex.noise(s, s)
   ];
 };
 
