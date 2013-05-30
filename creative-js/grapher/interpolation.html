@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<meta charset="utf-8">
+    <head>
+    <title></title>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+        body {
+            background-color:black;
+            margin:0px;
+            overflow : hidden;
+            font: 10px/1.2 monospace;
+        }
+        @media all and (min-width: 760px){
+            body {
+                font: 100%/1.2 monospace;
+            }
+        }
+        #script {
+            color: #eee;
+            display: block;
+            background: rgba(100,100,100,0.7);
+            z-index: 10;
+            position: absolute;
+            box-sizing: border-box;
+            top: 2%;
+            right: 1%;
+            width: 35%;
+            height: 96%;
+            padding: 20px;
+            white-space: pre;
+        }
+        canvas {
+            position: absolute;
+            top: 1%;
+            left: 1%;
+            z-index: 1;
+        }
+        </style>
+
+    </head>
+
+
+    <body>
+    <script src="../libs/creative-js.js"></script>
+    <script src="../libs/Vector2.js"></script>
+    <script src="../../threejs/source/examples/js/ImprovedNoise.js"></script>
+    <script src="../../utils/cubic_spline.js"></script>
+
+    <script src="core.js"></script>
+
+<script id="script" contenteditable>
+
+// Click Canvas to Pause
+
+window.step = 1;
+window.zoom = 'auto';
+window.max  = 200;
+
+var points = [
+    [5   , 50  , 75  , 100 , 180],
+    [0.5 , 1   , 0.3 , 1   , 0.2]
+]
+
+var mono  = new MonotonicCubicSpline(points[0], points[1]),
+    cubic = new CubicSpline(points[0], points[1])
+;
+
+window.getVal = function(s){
+  if (s > 4 && s < 181){
+    return [
+        mono.interpolate(s),
+        cubic.interpolate(s)
+    ];
+  }
+};
+
+</script>
+    </body>
+</html>

@@ -50,11 +50,13 @@ function draw() {
 		} catch(e){
 			val = 0;
 		}
-		values.push({
-			seed: seed,
-			value: val,
-			frame: frame
-		});
+		if (val instanceof Array){
+			values.push({
+				seed: seed,
+				value: val,
+				frame: frame
+			});
+		}
 		if (values.length > max){
 			values.shift(1);
 		}
