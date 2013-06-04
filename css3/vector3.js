@@ -18,6 +18,11 @@ Vector3.prototype = {
       this.x = v.x;
       this.y = v.y;
       this.z = v.z;
+    },
+    set: function(x, y, z){
+      this.x = x;
+      this.y = y;
+      this.z = z;
     }
 };
 
