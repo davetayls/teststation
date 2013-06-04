@@ -61,11 +61,15 @@ window.max  = 200;
 
 var points = [
     [5   , 50  , 75  , 100 , 180],
-    [0.5 , 1   , 0.3 , 1   , 0.2]
+    [0.5 , 1   , 0.3 , 1   , 0.2],
+]
+var negativePoints = [
+    [ 5   , 50  ,  75  , 100 , 180],
+    [-0.5 , 1   , -0.3 , 1   , 0.2],
 ]
 
-var mono  = new MonotonicCubicSpline(points[0], points[1]),
-    cubic = new CubicSpline(points[0], points[1])
+var mono  = new MonotonicCubicSpline(negativePoints[0], negativePoints[1]),
+    cubic = new CubicSpline(negativePoints[0], negativePoints[1])
 ;
 
 window.getVal = function(s){

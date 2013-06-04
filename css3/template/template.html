@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Cube Sphere</title>
+		<link rel="stylesheet" href="../cube.css">
+		<style>
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+			  perspective: 1000px;
+			}
+			h1 {
+				position: absolute;
+				top: 20px;
+				right: 20px;
+				font-family: sans-serif;
+				font-size: 13px;
+				text-transform: uppercase;
+			}
+
+			#scene {
+				transform-style: preserve-3d;
+				perspective: 800px;
+				height: 100%;
+			}
+			.floor {
+				background: rgba(0,0,0,0.3);
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 60%;
+				height: 60%;
+
+				transform:
+					translate3d(-50%,-50%,0)
+					rotateX(85deg)
+				;
+			}
+
+			#box1 {
+				transform:
+					translate3d(0, 0, 0)
+				;
+			}
+
+
+
+		</style>
+		<script src="../../utils/prefixfree.min.js"></script>
+		<script src="../../utils/modernizr.js"></script>
+	</head>
+	<body>
+		<h1>Template</h1>
+
+		<script id="cube" type="text/x-tmpl">
+		<i class="front"></i><i class="back"></i>
+		</script>
+
+		<div id="scene">
+			<div class="floor"></div>
+		</div>
+
+
+
+		<!-- VENDOR -->
+		<script src="../../utils/rAF.js"></script>
+		<script src="../../utils/cannon.js"></script>
+		<script src="../vector3.js"></script>
+
+
+		<!-- CUSTOM -->
+		<script>
+
+			// Box
+			function Box() {
+				this.el = document.createElement('div');
+				this.el.innerHTML = this.template;
+				this.el.className = 'box';
+
+				this.position = new Vector3(0,0,0);
+				this.rotation = new Vector3(0,0,0);
+
+				var shape = new CANNON.Box(new CANNON.Vec3(10,10,6));
+				var mat   = new CANNON.Material();
+				this.body  = new CANNON.RigidBody(0.1, shape, mat);
+				this.body.linearDamping = 0.1;
+
+				var mat_ground = new CANNON.ContactMaterial(groundMat, mat, 0.5, 0.2);
+				world.addContactMaterial(mat_ground);
+
+			}
+			Box.prototype = {
+				template: '<i class="front"></i><i class="back"></i>',
+				render: function(){
+					var pos = 'translate3d('+ [
+							this.body.position.x,
+							this.body.position.z*-1,
+							this.body.position.y
+						].join('px,') +'px)',
+						rot = [
+							'rotateX('+ this.rotation.x +'deg)',
+							'rotateY('+ this.rotation.x +'deg)',
+							'rotateZ('+ this.rotation.x +'deg)'
+						].join(' ')
+					;
+					this.el.style[Modernizr.prefixed('transform')] = pos +' '+ rot;
+				}
+			};
+
+			// physics
+			// Setup our world
+			var world = new CANNON.World();
+			world.gravity.set(0,0,-90.82);
+			world.broadphase = new CANNON.NaiveBroadphase();
+
+			// Create a plane
+			var groundShape = new CANNON.Plane();
+			var groundMat   = new CANNON.Material();
+			var groundBody = new CANNON.RigidBody(0,groundShape, groundMat);
+			world.add(groundBody);
+
+
+
+			// scene
+			var scene = document.getElementById('scene'),
+				boxes = []
+			;
+
+
+			function init() {
+
+				for (var i=0; i < 100; i++){
+					var b = new Box();
+					scene.appendChild(b.el);
+					b.body.position.set(
+						Math.random()*100 -50,
+						Math.random()*200 -100,
+						Math.random()*400
+					);
+					world.add(b.body);
+					boxes.push(b);
+				}
+
+			}
+			function update() {
+  				world.step(1.0/60.0);
+			}
+			function render() {
+				for (var i=0; i < boxes.length; i++){
+					boxes[i].render();
+				}
+			}
+			function frame() {
+				requestAnimationFrame(frame);
+				update();
+				render();
+			}
+			window.addEventListener('load', function(){
+				init();
+				frame();
+			});
+
+
+
+		</script>
+	</body>
+</html>

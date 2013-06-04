@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 File Api</title>
+    <style>
+
+        body {
+            font: 100%/1 sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        #drop-zone {
+            font-size: 2em;
+            text-align: center;
+            text-transform: uppercase;
+
+            border: dashed 2px #ccc;
+            -webkit-border-radius: 5px;
+               -moz-border-radius: 5px;
+                -ms-border-radius: 5px;
+                 -o-border-radius: 5px;
+                    border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90%;
+            height: 300px;
+            margin: -150px 0 0 -45%;
+            padding: 50px;
+
+
+            -webkit-transition: background-color .3s ease;
+               -moz-transition: background-color .3s ease;
+                -ms-transition: background-color .3s ease;
+                 -o-transition: background-color .3s ease;
+                    transition: background-color .3s ease;
+        }
+        #drop-zone.over {
+            background: #eee;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>HTML5 File Api</h1>
+    <div id="drop-zone">Drop files here</div>
+    <output id="list"></output>
+    <script>
+
+
+        // set up dnd listeners
+        var dropZone = document.getElementById('drop-zone');
+        var list     = document.getElementById('list');
+        var isOver   = false;
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+
+        function handleDragOver(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+            if (!isOver){
+                isOver = Date.now();
+                setTimeout(handleDragUi, 20);
+            } else {
+                isOver = Date.now();
+            }
+        }
+        function handleDragUi() {
+            if (Date.now() - isOver < 1000){
+                dropZone.className = 'over';
+                setTimeout(handleDragUi, 20);
+            } else {
+                dropZone.className = '';
+                isOver = false;
+            }
+        }
+
+        function handleFileSelect(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var files = e.dataTransfer.files; // FileList object
+
+            var output = [];
+            for (var i=0, f; f = files[i]; i++){
+                output.push(
+                    '<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                    f.size, ' bytes, last modified: ',
+                    f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                    '</li>'
+                );
+            }
+            list.innerHTML = '<ul>' + output.join('') + '</ul>';
+        }
+
+    </script>
+</body>
+</html>
