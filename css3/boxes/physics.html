@@ -51,7 +51,7 @@
 		<script src="../../utils/modernizr.js"></script>
 	</head>
 	<body>
-		<h1>Template</h1>
+		<h1>Boxes, Physics - Click to drop</h1>
 
 		<script id="cube" type="text/x-tmpl">
 		<i class="front"></i><i class="back"></i>
@@ -163,7 +163,11 @@
 			}
 			window.addEventListener('load', function(){
 				init();
+				render();
+			});
+			window.addEventListener('click', function(){
 				frame();
+				return false;
 			});
 
 
