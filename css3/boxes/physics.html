@@ -98,11 +98,12 @@
 							this.body.position.z*-1,
 							this.body.position.y
 						].join('px,') +'px)',
+						rotation = this.body.quaternion.toAxisAngle(),
 						rot = 'rotate3d('+ [
-							this.body.quaternion.x,
-							this.body.quaternion.y,
-							this.body.quaternion.z
-							].join(',') +', '+ this.body.quaternion.w +'rad)'
+							rotation[0].x,
+							rotation[0].y,
+							rotation[0].z
+							].join(',') +', '+ rotation[1] +'rad)'
 						// rot = [
 						// 	'rotateX('+ this.rotation.x +'deg)',
 						// 	'rotateY('+ this.rotation.x +'deg)',

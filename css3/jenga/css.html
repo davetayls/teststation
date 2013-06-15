@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Boxes with Physics</title>
+		<style>
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			body {}
+			h1 {
+				position: absolute;
+				top: 20px;
+				right: 20px;
+				font-family: sans-serif;
+				font-size: 13px;
+				text-transform: uppercase;
+			}
+
+			#scene {
+				transform-style: preserve-3d;
+				perspective: 2000px;
+				transform: rotateY(45deg) rotateX(-10deg) rotateZ(-10deg);
+				height: 100%;
+			}
+			.floor {
+				background: rgba(0,0,0,0.3);
+				position: absolute;
+				top: 80%;
+				left: 50%;
+				width: 60%;
+				height: 60%;
+
+				transform:
+					translate3d(-50%,-50%,0)
+					rotateX(85deg)
+				;
+			}
+
+			.box {
+			  border: dotted 1px red;
+			  display: block;
+			  width: 140px;
+			  height: 30px;
+			  position: absolute;
+			  top: 50%;
+			  left: 50%;
+			  transform-origin: 50% 50%;
+			  transform-style: preserve-3d;
+			}
+
+			  .box i {
+			    display: block;
+			    background: #999;
+			    width: 1px;
+			    height: 1px;
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    transform-style: preserve-3d;
+			  }
+
+			  .box .front {
+			    width: 140px;
+			    height: 30px;
+			    transform: translateZ(20px);
+			  }
+			  .box .back {
+			  	width: 140px;
+			  	height: 30px;
+			  	transform: translateZ(-20px);
+			  }
+			  .box .top {
+			  	background: red;
+			  	width: 140px;
+			  	height: 40px;
+			  	transform: rotateX(90deg) translateZ(20px);
+			  }
+			  .box .bottom {
+			  	background: green;
+			  	width: 140px;
+			  	height: 40px;
+			  	transform: rotateX(90deg) translateZ(-10px);
+			  }
+			  .box .left {
+			  	background: blue;
+			  	width: 40px;
+			  	height: 30px;
+			  	transform-origin: 0 50%;
+			  	transform: rotateY(90deg) translateX(-20px);
+			  }
+			  .box .right {
+			  	background: blue;
+			  	width: 40px;
+			  	height: 30px;
+			  	transform-origin: 0 50%;
+			  	transform: rotateY(90deg) translateX(-20px) translateZ(140px);
+			  }
+
+/*			.front {
+			  transform: rotateX(90deg) translateZ(7px) translateY(0px); }
+			  .front:before {
+			  	display: none;
+			    transform: translateZ(-14px); }
+			  .front:after {
+			  	display: none;
+			    transform: rotateY(90deg) translateZ(7px) translateX(7px); }
+
+			i.back {
+			  	display: none;
+			  transform: rotateY(0deg) translateZ(7px);
+			  background: #aaa; }
+			  i.back:before {
+			  	display: none;
+			    transform: translateZ(-14px);
+			    background: #ccc; }
+			  i.back:after {
+			  	display: none;
+			    transform: rotateY(90deg) translateZ(-7px) translateX(7px);
+			    background: #bbb; }
+*/
+
+
+
+		</style>
+		<script src="../../utils/prefixfree.min.js"></script>
+		<script src="../../utils/modernizr.js"></script>
+	</head>
+	<body>
+		<h1>Boxes, Physics - Click to drop</h1>
+
+		<script id="cube" type="text/x-tmpl">
+		<i class="front"></i><i class="back"></i>
+		</script>
+
+		<div id="scene">
+			<!-- <div class="floor"></div> -->
+		</div>
+
+
+
+		<!-- VENDOR -->
+		<script src="../../utils/rAF.js"></script>
+		<script src="../../utils/cannon.js"></script>
+		<script src="../vector3.js"></script>
+
+
+		<!-- CUSTOM -->
+		<script>
+
+			// Box
+			function Box() {
+				this.el = document.createElement('div');
+				this.el.innerHTML = this.template;
+				this.el.className = 'box';
+				this.altRow = false;
+				this.gap = 50;
+
+				this.position = new Vector3(0,0,0);
+				this.rotation = new Vector3(0,0,0);
+
+				var shape = new CANNON.Box(new CANNON.Vec3(10,10,6));
+				var mat   = new CANNON.Material();
+				this.body  = new CANNON.RigidBody(0.1, shape, mat);
+				this.body.linearDamping = 0.1;
+
+				var mat_ground = new CANNON.ContactMaterial(groundMat, mat, 0.5, 0.2);
+				world.addContactMaterial(mat_ground);
+
+			}
+			Box.prototype = {
+				template: '<i class="top"></i><i class="bottom"></i><i class="front"></i><i class="back"></i><i class="left"></i><i class="right"></i>',
+				render: function(){
+					var pos = 'translate3d('+ [
+							this.position.x*this.gap,
+							this.position.y*this.gap,
+							this.position.z*this.gap
+						].join('px,') +'px)',
+						// rot = 'rotate3d('+ [
+						// 	this.body.quaternion.x,
+						// 	this.body.quaternion.y,
+						// 	this.body.quaternion.z
+						// 	].join(',') +', '+ this.body.quaternion.w +'rad)'
+						rot = [
+							'rotateX('+ this.rotation.x +'deg)',
+							'rotateY('+ this.rotation.y +'deg)',
+							'rotateZ('+ this.rotation.z +'deg)'
+						].join(' ')
+					;
+					this.el.style[Modernizr.prefixed('transform')] = pos +' '+ rot;
+					this.el.className = this.altRow ? 'box altRow' : 'box';
+				}
+			};
+
+			// physics
+			// Setup our world
+			var world = new CANNON.World();
+			world.gravity.set(0,0,-90.82);
+			world.broadphase = new CANNON.NaiveBroadphase();
+
+			// Create a plane
+			var groundShape = new CANNON.Plane();
+			var groundMat   = new CANNON.Material();
+			var groundBody = new CANNON.RigidBody(0,groundShape, groundMat);
+			world.add(groundBody);
+
+
+
+			// scene
+			var scene = document.getElementById('scene'),
+				boxes = []
+			;
+
+			function addBox(x, y, z, altRow) {
+				var b = new Box();
+				scene.appendChild(b.el);
+				b.position.set(x, y, z);
+				b.altRow = altRow;
+				// world.add(b.body);
+				boxes.push(b);
+				b.render();
+			}
+
+			function init() {
+				addBox(0,0,0);
+				addBox(0,0,1);
+				// addBox(0,2,0);
+
+				// addBox(0,0,1, true);
+			}
+			function update() {
+  				// world.step(1.0/60.0);
+			}
+			function render() {
+				for (var i=0; i < boxes.length; i++){
+					boxes[i].render();
+				}
+			}
+			function frame() {
+				requestAnimationFrame(frame);
+				update();
+				render();
+			}
+			window.addEventListener('load', function(){
+				init();
+				render();
+				frame();
+			});
+			window.addEventListener('click', function(){
+				frame();
+				return false;
+			});
+
+
+
+		</script>
+	</body>
+</html>
