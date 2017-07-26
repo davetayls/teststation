@@ -1,4 +1,3 @@
-auto: true
 lsi: false
 live: true
 permalink: /blog/:year/:month/:day/:title

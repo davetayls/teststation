@@ -1,0 +1,21 @@
+{
+  "name": "teststation",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "jekyll": "jekyll serve --drafts --port 4001 -b /teststation"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davetayls/teststation.git"
+  },
+  "author": "Dave Taylor (davetayls.me)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davetayls/teststation/issues"
+  },
+  "homepage": "https://github.com/davetayls/teststation#readme"
+}
